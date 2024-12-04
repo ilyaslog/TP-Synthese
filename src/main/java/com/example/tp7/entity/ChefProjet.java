@@ -1,11 +1,10 @@
 package com.example.tp7.entity;
 
 import jakarta.persistence.*;
-import java.util.Set;
 
 @Entity
-@Table(name = "Developeur")
-public class Developeur {
+@Table(name = "Chef_Projet")
+public class ChefProjet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,22 +20,13 @@ public class Developeur {
     @Column(name = "password")
     private String password;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "Developeur_Competences",
-            joinColumns = @JoinColumn(name = "id_dev")
-    )
-    @Column(name = "competence")
-    private Set<String> competences;
-
-    public Developeur() {
+    public ChefProjet() {
     }
 
-    public Developeur(String name, String login, String password, Set<String> competences) {
+    public ChefProjet(String name, String login, String password) {
         this.name = name;
         this.login = login;
         this.password = password;
-        this.competences = competences;
     }
 
     public int getId() {
@@ -70,13 +60,4 @@ public class Developeur {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public Set<String> getCompetences() {
-        return competences;
-    }
-
-    public void setCompetences(Set<String> competences) {
-        this.competences = competences;
-    }
-
 }
