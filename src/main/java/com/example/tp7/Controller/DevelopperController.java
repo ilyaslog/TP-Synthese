@@ -41,4 +41,12 @@ public class DevelopperController {
         model.addAttribute("developpers", developeurService.findAll());
         return "Dev-list"; // Replace with your actual Thymeleaf template for the list page
     }
+    @PostMapping("/delete")
+    public String deleteDev(@RequestParam("devId") int id) {
+        // Delete the developer using the service
+        developeurService.deleteById(id);
+        // Redirect to a listing page after deleting
+        return "redirect:/developper/list";
+    }
+
 }
