@@ -6,7 +6,7 @@
 </head>
 <body>
 <h3>Authentification Développeur</h3>
-<form th:action="@{/developeurs/save}" th:object="${Developeur}" method="post">
+<form th:action="@{/developper/save}" th:object="${developeur}" method="post">
     Nom : <input type="text" th:field="*{name}" class="form-control mb-4 w-25" /><br />
     Login : <input type="text" th:field="*{login}" class="form-control mb-4 w-25" /><br />
     Mot de passe : <input type="password" th:field="*{password}" class="form-control mb-4 w-25" /><br />
