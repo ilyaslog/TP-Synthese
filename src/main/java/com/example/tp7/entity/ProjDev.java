@@ -9,29 +9,29 @@ public class ProjDev {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_DevInProj")
-    private int idDevInProj;
+    private Integer idDevInProj;
 
     @ManyToOne
-    @JoinColumn(name = "idProj")
+    @JoinColumn(name = "idProj", referencedColumnName = "idProj")
     private Projet projet;
 
     @ManyToOne
-    @JoinColumn(name = "idDev")
-    private Developeur developeur;
+    @JoinColumn(name = "idDev", referencedColumnName = "id")
+    private Developeur developpeur;
 
     @Column(name = "Commentaire")
     private String commentaire;
 
     @Column(name = "Stars")
-    private int stars;
+    private Integer stars;
 
 
-    public ProjDev() {
+public ProjDev() {
     }
 
-    public ProjDev(Projet projet, Developeur developeur, String commentaire, int stars) {
+    public ProjDev(Projet projet, Developeur developpeur, String commentaire, int stars) {
         this.projet = projet;
-        this.developeur = developeur;
+        this.developpeur = developpeur;
         this.commentaire = commentaire;
         this.stars = stars;
     }
@@ -52,13 +52,7 @@ public class ProjDev {
         this.projet = projet;
     }
 
-    public Developeur getDevelopeur() {
-        return developeur;
-    }
 
-    public void setDevelopeur(Developeur developeur) {
-        this.developeur = developeur;
-    }
 
     public String getCommentaire() {
         return commentaire;

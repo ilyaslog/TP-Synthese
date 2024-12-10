@@ -2,7 +2,7 @@ package com.example.tp7.entity;
 
 import jakarta.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "Projet")
@@ -11,7 +11,7 @@ public class Projet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idProj")
-    private int idProj;
+    private Integer idProj;
 
     @Column(name = "titre")
     private String titre;
@@ -19,35 +19,31 @@ public class Projet {
     @Column(name = "description")
     private String description;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "Debut_Proj")
     private Date debutProj;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "Fin_Proj")
     private Date finProj;
 
     @Column(name = "Duree")
-    private int duree;
+    private Integer duree;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "Projet_Competences_Requise",
-            joinColumns = @JoinColumn(name = "id_proj")
-    )
-    @Column(name = "competence")
-    private Set<String> competencesRequise;
+    @Column(name = "Competences_Requise")
+    private String competencesRequise;
 
     @ManyToOne
-    @JoinColumn(name = "ID_Chef")
+    @JoinColumn(name = "ID_Chef", referencedColumnName = "id")
     private ChefProjet chefProjet;
 
-    @ManyToOne
-    @JoinColumn(name = "id_Dev")
-    private Developeur developeur;
+    @OneToMany(mappedBy = "projet", cascade = CascadeType.ALL)
+    private List<ProjDev> projDevs;
 
-    public Projet() {
+public Projet() {
     }
 
-    public Projet(String titre, String description, Date debutProj, Date finProj, int duree, Set<String> competencesRequise, ChefProjet chefProjet, Developeur developeur) {
+    public Projet(String titre, String description, Date debutProj, Date finProj, int duree, String competencesRequise, ChefProjet chefProjet, Developeur developeur) {
         this.titre = titre;
         this.description = description;
         this.debutProj = debutProj;
@@ -55,7 +51,6 @@ public class Projet {
         this.duree = duree;
         this.competencesRequise = competencesRequise;
         this.chefProjet = chefProjet;
-        this.developeur = developeur;
     }
 
     public int getIdProj() {
@@ -106,11 +101,11 @@ public class Projet {
         this.duree = duree;
     }
 
-    public Set<String> getCompetencesRequise() {
+    public String getCompetencesRequise() {
         return competencesRequise;
     }
 
-    public void setCompetencesRequise(Set<String> competencesRequise) {
+    public void setCompetencesRequise(String competencesRequise) {
         this.competencesRequise = competencesRequise;
     }
 
@@ -122,13 +117,6 @@ public class Projet {
         this.chefProjet = chefProjet;
     }
 
-    public Developeur getDevelopeur() {
-        return developeur;
-    }
-
-    public void setDevelopeur(Developeur developeur) {
-        this.developeur = developeur;
-    }
 
 
 }

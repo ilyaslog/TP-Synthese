@@ -1,7 +1,7 @@
 package com.example.tp7.entity;
 
 import jakarta.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "Developeur")
@@ -10,7 +10,7 @@ public class Developeur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -21,29 +21,27 @@ public class Developeur {
     @Column(name = "password")
     private String password;
 
-    @ElementCollection
-    @CollectionTable(
-            name = "Developeur_Competences",
-            joinColumns = @JoinColumn(name = "id_dev")
-    )
-    @Column(name = "competence")
-    private Set<String> competences;
+    @Column(name = "Competences")
+    private String competences;
+
+    @OneToMany(mappedBy = "developpeur", cascade = CascadeType.ALL)
+    private List<ProjDev> projDevs;
 
     public Developeur() {
     }
 
-    public Developeur(String name, String login, String password, Set<String> competences) {
+    public Developeur(String name, String login, String password, String competences) {
         this.name = name;
         this.login = login;
         this.password = password;
         this.competences = competences;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -71,12 +69,32 @@ public class Developeur {
         this.password = password;
     }
 
-    public Set<String> getCompetences() {
+    public String getCompetences() {
         return competences;
     }
 
-    public void setCompetences(Set<String> competences) {
+    public void setCompetences(String competences) {
         this.competences = competences;
     }
+
+    public List<ProjDev> getProjDevs() {
+        return projDevs;
+    }
+
+    public void setProjDevs(List<ProjDev> projDevs) {
+        this.projDevs = projDevs;
+    }
+
+    @Override
+    public String toString() {
+        return "Developeur{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", competences='" + competences + '\'' +
+                '}';
+    }
+
 
 }
