@@ -62,8 +62,9 @@ public class DevelopperController {
     // Update developer details from the form
     @PostMapping("/update")
     public String updateDev(@ModelAttribute("developeur") Developeur developeur) {
-        developeurService.save(developeur); // Save the updated details
-        return "redirect:/developper/list"; // Redirect to the list page
+        developeurService.save(developeur); // Save the updated developer details
+        return "redirect:/developper/list"; // Redirect to the list page after updating
     }
+
 
 }

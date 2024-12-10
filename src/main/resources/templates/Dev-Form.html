@@ -6,13 +6,13 @@
 </head>
 <body>
 <h3>Authentification Développeur</h3>
-<form th:action="@{/developper/save}" th:object="${developeur}" method="post">
+<form th:action="@{/developper/update}" th:object="${developeur}" method="post">
     <input type="hidden" th:field="*{id}" />
     Nom : <input type="text" th:field="*{name}" class="form-control mb-4 w-25" /><br />
     Login : <input type="text" th:field="*{login}" class="form-control mb-4 w-25" /><br />
     Mot de passe : <input type="password" th:field="*{password}" class="form-control mb-4 w-25" /><br />
     Compétences : <input type="text" th:field="*{competences}" class="form-control mb-4 w-25" /><br />
-    <button type="submit" class="btn btn-info col-2">Enregistrer</button>
+    <button type="submit" class="btn btn-info col-2">Save Changes</button>
 </form>
 
 
