@@ -1,1 +1,2 @@
-TP-Synthese/src/main/resources/application.properties
+/src/main/resources/
+/test/main/resources/
