@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DevelopeurRepository extends JpaRepository<Developeur, Integer> {
+    Developeur findByLoginAndPassword(String login, String password);
+    Developeur findByLogin(String login);
 
 
 }

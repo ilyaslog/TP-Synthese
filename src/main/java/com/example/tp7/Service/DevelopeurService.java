@@ -14,6 +14,9 @@ public interface DevelopeurService {
 
     void deleteById(int id);
 
+    Developeur validateLogin(String login, String password);
+
+
 
 
 

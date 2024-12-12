@@ -39,6 +39,16 @@ public class DevelopeurServiceImpl implements DevelopeurService {
          developeurRepository.deleteById(id);
     }
 
+    @Override
+    public Developeur validateLogin(String login, String password) {
+        Developeur developeur = developeurRepository.findByLogin(login);
+        if (developeur != null && developeur.getPassword().equals(password)) {
+            return developeur; // Credentials are correct
+        }
+        return null; // Credentials are incorrect
+    }
+
+
 
 
 }
