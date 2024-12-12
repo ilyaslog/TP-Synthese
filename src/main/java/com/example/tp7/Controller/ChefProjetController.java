@@ -24,7 +24,7 @@ public class ChefProjetController {
         // Create a new Developeur object to bind to the form
         Developeur developeur = new Developeur();
         model.addAttribute("developeur", developeur);
-        return "Dev-form"; // Return the name of the Thymeleaf template
+        return "Dev-Form"; // Return the name of the Thymeleaf template
     }
 
     // Save developer details from the form
@@ -33,7 +33,7 @@ public class ChefProjetController {
         // Save the developer using the service
         developeurService.save(developeur);
         // Redirect to a listing page after saving
-        return "redirect:/developeur/list";
+        return "redirect:/ChefProjet/list";
     }
 
     // List all developers
@@ -49,7 +49,7 @@ public class ChefProjetController {
         // Delete the developer using the service
         developeurService.deleteById(id);
         // Redirect to a listing page after deleting
-        return "redirect:/developeur/list";
+        return "redirect:/ChefProjet/list";
     }
 
     @GetMapping("/updateForm")
@@ -63,7 +63,7 @@ public class ChefProjetController {
     @PostMapping("/update")
     public String updateDev(@ModelAttribute("developeur") Developeur developeur) {
         developeurService.save(developeur); // Save the updated developer details
-        return "redirect:/developper/list"; // Redirect to the list page after updating
+        return "redirect:/ChefProjet/list"; // Redirect to the list page after updating
     }
 
 

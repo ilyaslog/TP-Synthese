@@ -46,12 +46,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider" />
 
-    <li class="nav-item">
-      <a class="nav-link" th:href="@{/ChefProjet/list}">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Liste developeur</span>
-      </a>
-    </li>
+
 
     <!-- Heading -->
     <div class="sidebar-heading">Interface</div>
@@ -243,23 +238,116 @@
 
       <!-- Page Content -->
       <div class="container-fluid">
+        <!-- Page Heading -->
 
-        <div class="container-fluid">
-          <!-- Page Heading -->
-
-        </div> <!-- End of Main Content -->
-      </div>
-      <!-- End of Content Wrapper -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2020</span>
+        <!-- Content Row -->
+        <div class="row">
+          <!-- Total Projects -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div
+                            class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+                    >
+                      Projet que vous avez réalisé
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      25
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i
+                            class="fas fa-clipboard-list fa-2x text-gray-300"
+                    ></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Active Projects -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div
+                            class="text-xs font-weight-bold text-success text-uppercase mb-1"
+                    >
+                      Projet en cours
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      10
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-check fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Completed Projects -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div
+                            class="text-xs font-weight-bold text-info text-uppercase mb-1"
+                    >
+                      Projet complété
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      15
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-trophy fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Average Developer Rating -->
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div
+                            class="text-xs font-weight-bold text-warning text-uppercase mb-1"
+                    >
+                      Votre note moyenne
+                    </div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      4.5/5
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-star fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </footer>
+      </div>
     </div>
-    <!-- End of Page Wrapper -->
+  </div>
+</div>
+<!-- End of Main Content of Content Wrapper -->
 
+
+    <!-- End of Page Wrapper -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Your Website 2020</span>
+        </div>
+      </div>
+    </footer>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
