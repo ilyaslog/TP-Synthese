@@ -21,7 +21,7 @@ public class Developeur {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "Competences")
+    @Column(name = "competences")
     private String competences;
 
     @OneToMany(mappedBy = "developpeur", cascade = CascadeType.ALL)

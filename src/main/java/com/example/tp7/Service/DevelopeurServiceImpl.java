@@ -31,6 +31,7 @@ public class DevelopeurServiceImpl implements DevelopeurService {
 
     @Override
     public Developeur save(Developeur developeur) {
+        System.out.println("Saving developer: " + developeur);
         return developeurRepository.save(developeur);
     }
 
@@ -47,7 +48,16 @@ public class DevelopeurServiceImpl implements DevelopeurService {
         }
         return null; // Credentials are incorrect
     }
-
+    @Override
+    public Developeur updateByid(int id, Developeur developeur) {
+        return developeurRepository.findById(id).map(existingDevelopeur -> {
+            existingDevelopeur.setName(developeur.getName());
+            existingDevelopeur.setLogin(developeur.getLogin());
+            existingDevelopeur.setPassword(developeur.getPassword());
+            existingDevelopeur.setCompetences(developeur.getCompetences());
+            return developeurRepository.save(existingDevelopeur);
+        }).orElseThrow(() -> new RuntimeException("Developer with ID " + id + " not found."));
+    }
 
 
 

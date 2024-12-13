@@ -13,4 +13,5 @@ public interface ChefProjetService  {
 
     void deleteById(int id);
 
+    public ChefProjet validateLogin(String login, String password);
 }

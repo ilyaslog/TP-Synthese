@@ -37,7 +37,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" th:href="@{/ChefProjet/Dashboard}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a
             >
@@ -52,7 +52,12 @@
                 <span>Liste developeur</span></a
             >
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/ChefProjet/Projet}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Projet</span></a
+            >
+        </li>
         <!-- Heading -->
         <div class="sidebar-heading">Interface</div>
 
@@ -245,83 +250,151 @@
             <div class="container-fluid">
 
                 <div class="container-fluid">
-                    <!-- Page Heading -->
-                    <div class="container-fluid">
-                        <h1 class="h3 mb-4 text-gray-800">Add Developer</h1>
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Developer Details</h6>
+
+                    <!-- Content Row -->
+                    <div class="row">
+                        <!-- Total Projects -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div
+                                                    class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+                                            >
+                                                Projet que vous avez réalisé
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                25
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i
+                                                    class="fas fa-clipboard-list fa-2x text-gray-300"
+                                            ></i>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <form>
-                                    <div class="form-group">
-                                        <label for="developerName">Nom</label>
-                                        <input type="text" class="form-control" id="developerName" placeholder="Entrer Votre nom" />
+                        </div>
+                        <!-- Active Projects -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div
+                                                    class="text-xs font-weight-bold text-success text-uppercase mb-1"
+                                            >
+                                                Projet en cours
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                10
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-check fa-2x text-gray-300"></i>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="Login">Login</label>
-                                        <input type="Login" class="form-control" id="Login" placeholder="Enter Votre Login" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Completed Projects -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-info shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div
+                                                    class="text-xs font-weight-bold text-info text-uppercase mb-1"
+                                            >
+                                                Projet complété
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                15
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-trophy fa-2x text-gray-300"></i>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="developerPhone">Password</label>
-                                        <input type="tel" class="form-control" id="developerPhone" placeholder="Entrer votre Mot de Passe" />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Average Developer Rating -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div
+                                                    class="text-xs font-weight-bold text-warning text-uppercase mb-1"
+                                            >
+                                                Votre note moyenne
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                4.5/5
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-star fa-2x text-gray-300"></i>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="developerRole">Competences</label>
-                                        <input type="text" class="form-control" id="developerRole" placeholder="Entrer vos competances (ex (Java,html,cs....))" />
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Add Developer</button>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>    <!-- End of Main Content -->
-        </div>
-        <!-- End of Content Wrapper -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2020</span>
-                </div>
-            </div>
-        </footer>
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
+            </div>      <!-- /.container-fluid -->
         </div>
     </div>
+</div>    <!-- End of Main Content -->
+    </div>
+</div>
+<!-- End of Content Wrapper -->
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2020</span>
+        </div>
+    </div>
+</footer>
+</div>
+<!-- End of Page Wrapper -->
 
-    <!-- Bootstrap core JavaScript-->
-    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
 
-    <!-- Core plugin JavaScript-->
-    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- Custom scripts for all pages-->
-    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+<!-- Bootstrap core JavaScript-->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Core plugin JavaScript-->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Custom scripts for all pages-->
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
 
 </body>
 </html>
