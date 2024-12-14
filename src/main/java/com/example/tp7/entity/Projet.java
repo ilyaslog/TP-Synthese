@@ -30,6 +30,8 @@ public class Projet {
     @Column(name = "Duree")
     private Integer duree;
 
+    @Column(name = "Statut")
+    private int statut; // 0: en cours, 1: terminé
     @Column(name = "Competences_Requise")
     private String competencesRequise;
 

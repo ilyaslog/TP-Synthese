@@ -36,8 +36,17 @@
         }
         @GetMapping("/Projet")
         public String showProjet(Model model) {
+            // Retrieve all developers from the service
+            List<Developeur> developers = developeurService.findAll();
+
+            // Add the developers to the model for use in the view
+            model.addAttribute("developpers", developers);
+
+            // Return the view
             return "/Admin/Project";
         }
+
+
         // Save developer details from the form
 
 

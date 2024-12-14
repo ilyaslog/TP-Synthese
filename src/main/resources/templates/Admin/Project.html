@@ -167,7 +167,7 @@
                                     <h4 class="card-title">Project Details</h4>
                                 </div>
                                 <div class="card-body">
-                                    <form id="projectDetailsForm">
+                                    <form id="projectDetailsForm" th:action="@{/assignDevelopers}" method="post">
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="Titre">Project Title</label>
@@ -178,6 +178,7 @@
                                                 <input type="date" class="form-control" id="deadline-input" required>
                                             </div>
                                         </div>
+
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="competenceRequired">Required Competencies</label>
@@ -188,26 +189,66 @@
                                                     <option value="design">UI/UX Design</option>
                                                 </select>
                                             </div>
+
                                             <div class="form-group col-md-6">
-                                                <label for="assignedDevs">Assign Developers</label>
+                                                <label for="availableDevs">Available Developers</label>
+                                                <select class="form-control" id="availableDevs" name="availableDevs" multiple>
+                                                    <!-- Loop through available developers dynamically (using Thymeleaf) -->
+                                                    <option th:each="developer : ${developpers}"
+                                                            th:value="${developer.id}"
+                                                            th:text="${developer.name}">
+                                                    </option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <button type="button" class="btn btn-primary" id="assignButton">Assign</button>
+                                                <button type="button" class="btn btn-danger" id="unassignButton">Unassign</button>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label for="assignedDevs">Assigned Developers</label>
                                                 <select class="form-control" id="assignedDevs" name="assignedDevs" multiple>
-                                                    <option value="dev1">Alice</option>
-                                                    <option value="dev2">Bob</option>
-                                                    <option value="dev3">Charlie</option>
-                                                    <option value="dev4">Dave</option>
+                                                    <!-- Assigned developers will be dynamically added here -->
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 <label for="projectDetails">Project Description</label>
                                                 <textarea class="form-control" id="projectDetails" name="projectDetails" rows="3" placeholder="Describe the project" required></textarea>
                                             </div>
                                         </div>
+
                                         <button type="submit" class="btn btn-primary btn-block">Submit</button>
                                     </form>
                                 </div>
                             </div>
+
+                            <script>
+                                // JavaScript to handle developer assignment and unassignment
+
+                                document.getElementById("assignButton").addEventListener("click", function() {
+                                    const availableDevs = document.getElementById("availableDevs");
+                                    const assignedDevs = document.getElementById("assignedDevs");
+
+                                    // Move selected developers from available to assigned
+                                    Array.from(availableDevs.selectedOptions).forEach(option => {
+                                        assignedDevs.appendChild(option); // Move to assigned list
+                                    });
+                                });
+
+                                document.getElementById("unassignButton").addEventListener("click", function() {
+                                    const availableDevs = document.getElementById("availableDevs");
+                                    const assignedDevs = document.getElementById("assignedDevs");
+
+                                    // Move selected developers from assigned to available
+                                    Array.from(assignedDevs.selectedOptions).forEach(option => {
+                                        availableDevs.appendChild(option); // Move to available list
+                                    });
+                                });
+                            </script>
 
 
                             <div class="card mb-4">
