@@ -12,4 +12,5 @@ public interface DevelopeurRepository extends JpaRepository<Developeur, Integer>
     Developeur findByLogin(String login);
     List<Developeur> findByNameContainingIgnoreCase(String name);
 
+
 }

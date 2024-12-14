@@ -7,10 +7,10 @@
           name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"
   />
-  <meta name="description" content="Developer Login" />
+  <meta name="description" content="Chef Projet Login" />
   <meta name="author" content="" />
 
-  <title>Developer Login</title>
+  <title>Chef Projet Login</title>
 
   <!-- Custom fonts for this template-->
   <link
@@ -19,7 +19,7 @@
           type="text/css"
   />
   <link
-         th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900}"
+          th:href="@{https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900}"
           rel="stylesheet"
   />
 
@@ -35,28 +35,28 @@
         <div class="card-body p-0">
           <div class="row">
             <div
-                    class="col-lg-6 d-none d-lg-block bg-developer-login-image"
+                    class="col-lg-6 d-none d-lg-block bg-chef-projet-login-image"
             ></div>
             <div class="col-lg-6">
               <div class="p-5">
                 <div class="text-center">
-                  <h1 class="h4 text-gray-900 mb-4">Developer Login</h1>
+                  <h1 class="h4 text-gray-900 mb-4">Chef Projet Login</h1>
                 </div>
-                <form class="user" th:action="@{/developer/login}" method="post">
+                <form class="user" th:action="@{/ChefProjet/login}" method="post">
                   <div class="form-group">
                     <input
                             type="text"
                             class="form-control form-control-user"
-                            id="developerLogin"
+                            id="chefProjetLogin"
                             name="login"
-                            placeholder="Developer Username"
+                            placeholder="Chef Projet Username"
                     />
                   </div>
                   <div class="form-group">
                     <input
                             type="password"
                             class="form-control form-control-user"
-                            id="developerPassword"
+                            id="chefProjetPassword"
                             name="password"
                             placeholder="Password"
                     />
@@ -83,7 +83,7 @@
                 </form>
                 <hr />
                 <div class="text-center">
-                  <a class="small" th:href="@{/developer/forgot-password}">Forgot Password?</a
+                  <a class="small" th:href="@{/ChefProjet/forgot-password}">Forgot Password?</a
                   >
                 </div>
               </div>
