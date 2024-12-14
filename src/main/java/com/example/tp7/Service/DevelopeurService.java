@@ -19,4 +19,7 @@ public interface DevelopeurService {
     Developeur updateByid(int id, Developeur developeur);
 
     List<Developeur> searchByName(String name);
+
+    Developeur findByLogin(String login);
+    Developeur updatePassword(String login, String newPassword);
 }

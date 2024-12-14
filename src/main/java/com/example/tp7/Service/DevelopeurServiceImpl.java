@@ -63,4 +63,19 @@ public class DevelopeurServiceImpl implements DevelopeurService {
         return developeurRepository.findByNameContainingIgnoreCase(name);
     }
 
+
+    @Override
+    public Developeur findByLogin(String login) {
+        return developeurRepository.findByLogin(login);  // Find Developeur by login
+    }
+    @Override
+    public Developeur updatePassword(String login, String newPassword) {
+        Developeur developeur = findByLogin(login);  // Find Developeur by login
+        if (developeur != null) {
+            developeur.setPassword(newPassword);  // Set new password
+            return developeurRepository.save(developeur);  // Save the updated entity
+        }
+        return null;
+    }
+
 }

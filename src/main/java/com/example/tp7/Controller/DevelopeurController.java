@@ -50,4 +50,27 @@ public class DevelopeurController {
             return "redirect:/developer/login";
         }
     }
+
+
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordForm() {
+        return "/forgot-password-dev";  // Return forgot password page for developpeur
+    }
+
+    // Handle password reset request
+    @PostMapping("/forgot-password")
+    public String handleForgotPassword(@RequestParam("login") String login,
+                                       @RequestParam("newPassword") String newPassword,
+                                       Model model) {
+        Developeur developeur = developeurService.updatePassword(login, newPassword);
+
+        if (developeur != null) {
+            model.addAttribute("success", "Password reset successfully!");
+            return "/login-dev";
+        } else {
+            model.addAttribute("error", "Username not found. Please try again.");
+            return "/forgot-password-dev";
+        }
+    }
+
 }

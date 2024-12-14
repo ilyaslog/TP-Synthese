@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface ChefProjetRepository extends JpaRepository<ChefProjet, Integer> {
 
     ChefProjet findByLogin(String login);
+    ChefProjet findByLoginAndPassword(String login, String password);
 }

@@ -33,13 +33,30 @@ public class ChefProjetServiceImpl implements ChefProjetService {
     public void deleteById(int id) {
         chefProjetRepository.deleteById(id);
     }
+
     @Override
     public ChefProjet validateLogin(String login, String password) {
         ChefProjet chefProjet = ChefProjetRepository.findByLogin(login);
         if (chefProjet != null && chefProjet.getPassword().equals(password)) {
-            return chefProjet; // Credentials are correct
+            return chefProjet;
         }
-        return null; // Credentials are incorrect
+        return null;
+    }
+
+
+    @Override
+    public ChefProjet findByLogin(String login) {
+        return chefProjetRepository.findByLogin(login);
+    }
+
+    @Override
+    public ChefProjet updatePassword(String login, String newPassword) {
+        ChefProjet chefProjet = findByLogin(login);
+        if (chefProjet != null) {
+            chefProjet.setPassword(newPassword);
+            return chefProjetRepository.save(chefProjet);
+        }
+        return null;
     }
 
 
