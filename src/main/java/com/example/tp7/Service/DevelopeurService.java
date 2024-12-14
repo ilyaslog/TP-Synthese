@@ -17,4 +17,6 @@ public interface DevelopeurService {
     Developeur validateLogin(String login, String password);
 
     Developeur updateByid(int id, Developeur developeur);
+
+    List<Developeur> searchByName(String name);
 }

@@ -58,7 +58,9 @@ public class DevelopeurServiceImpl implements DevelopeurService {
             return developeurRepository.save(existingDevelopeur);
         }).orElseThrow(() -> new RuntimeException("Developer with ID " + id + " not found."));
     }
-
-
+    @Override
+    public List<Developeur> searchByName(String name) {
+        return developeurRepository.findByNameContainingIgnoreCase(name);
+    }
 
 }

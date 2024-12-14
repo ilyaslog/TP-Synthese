@@ -39,25 +39,25 @@
         <li class="nav-item">
             <a class="nav-link" th:href="@{/ChefProjet/Dashboard}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a
-            >
+                <span>Dashboard</span>
+            </a>
         </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider" />
 
+        <!-- Additional Links -->
         <li class="nav-item">
             <a class="nav-link" th:href="@{/ChefProjet/list}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Liste developeur</span></a
-            >
+                <i class="fas fa-fw fa-users"></i>
+                <span>Liste développeur</span>
+            </a>
         </li>
-
         <li class="nav-item">
             <a class="nav-link" th:href="@{/ChefProjet/Projet}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Projet</span></a
-            >
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Projet</span>
+            </a>
         </li>
         <!-- Heading -->
         <div class="sidebar-heading">Interface</div>
@@ -262,19 +262,19 @@
                                 <form th:action="@{/ChefProjet/save}">
                                     <div class="form-group">
                                         <label for="developerName">Nom</label>
-                                        <input type="text" class="form-control" id="developerName" placeholder="Entrer Votre nom" />
+                                        <input type="text" class="form-control" id="developerName" name="name" placeholder="Entrer Votre nom" />
                                     </div>
                                     <div class="form-group">
                                         <label for="Login">Login</label>
-                                        <input type="Login" class="form-control" id="Login" placeholder="Enter Votre Login" />
+                                        <input type="Login" class="form-control" id="Login" name="login"  placeholder="Enter Votre Login" />
                                     </div>
                                     <div class="form-group">
                                         <label for="developerPhone">Password</label>
-                                        <input type="tel" class="form-control" id="developerPhone" placeholder="Entrer votre Mot de Passe" />
+                                        <input type="tel" class="form-control" id="developerPhone" name="password" placeholder="Entrer votre Mot de Passe" />
                                     </div>
                                     <div class="form-group">
                                         <label for="developerRole">Competences</label>
-                                        <input type="text" class="form-control" id="developerRole" placeholder="Entrer vos competances (ex (Java,html,cs....))" />
+                                        <input type="text" class="form-control" id="developerRole" name="competences" placeholder="Entrer vos competances (ex (Java,html,cs....))" />
                                     </div>
                                     <button type="submit" class="btn btn-primary">Add Developer</button>
                                 </form>
