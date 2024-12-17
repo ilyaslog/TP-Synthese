@@ -106,7 +106,7 @@
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-              <a class="dropdown-item" th:href="@{/Profile}">
+              <a class="dropdown-item" href="#">
                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                 Profile
               </a>
@@ -156,24 +156,30 @@
             <div class="card mb-4">
               <div class="card-header">Profile Details</div>
               <div class="card-body">
-                <form>
+                <form th:action="@{/ChefProjet/update}" th:object="${chefProjet}" method="post">
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputName">Full Name</label>
-                      <input type="text" class="form-control" id="inputName" value="Douglas McGee" />
+                      <!-- Displaying data using h5 for display, input for edit -->
+                      <h5 th:text="${chefProjet.name}">Douglas McGee</h5>
+                      <input type="text" class="form-control" id="inputName"  placeholder="Enter full name" />
                     </div>
                     <div class="form-group col-md-6">
                       <label for="inputUsername">Username</label>
-                      <input type="text" class="form-control" id="inputUsername" value="douglasmcgee" />
+                      <h5 th:text="${chefProjet.login}">douglasmcgee</h5>
+                      <input type="text" class="form-control" id="inputUsername"  placeholder="Enter username" />
                     </div>
                   </div>
-                 
+
                   <div class="form-group">
                     <label for="inputBio">Bio</label>
-                    <textarea class="form-control" id="inputBio" rows="3">Web developer with 5+ years of experience in frontend and backend technologies. Passionate about creating user-friendly and efficient solutions.</textarea>
+                    <h5 th:text="${chefProjet.bio}">Web developer with 5+ years of experience in frontend and backend technologies. Passionate about creating user-friendly and efficient solutions.</h5>
+                    <textarea class="form-control" id="inputBio" rows="3"  placeholder="Enter bio"></textarea>
                   </div>
+
                   <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
+
               </div>
             </div>
           </div>
