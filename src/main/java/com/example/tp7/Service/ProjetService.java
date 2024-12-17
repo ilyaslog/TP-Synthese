@@ -1,5 +1,6 @@
 package com.example.tp7.Service;
 
+import com.example.tp7.entity.ChefProjet;
 import com.example.tp7.entity.ProjDev;
 import com.example.tp7.entity.Projet;
 import com.example.tp7.DAO.ProjetRepository;
@@ -39,27 +40,22 @@ public class ProjetService {
     public List<Projet> getAllProjets() {
         return projetRepository.findAll();
     }
-
-    public void updateProjetById(int id, Projet updatedProjet) {
-        Projet existingProjet = projetRepository.findById(id).orElse(null);
-        if (existingProjet != null) {
-            existingProjet.setTitre(updatedProjet.getTitre());
-            existingProjet.setDescription(updatedProjet.getDescription());
-            existingProjet.setDebutProj(updatedProjet.getDebutProj());
-            existingProjet.setFinProj(updatedProjet.getFinProj());
-            existingProjet.setDuree(updatedProjet.getDuree());
-            existingProjet.setStatut(updatedProjet.getStatut());
-            existingProjet.setCompetencesRequise(updatedProjet.getCompetencesRequise());
-            projetRepository.save(existingProjet);
-        }
-    }
-
+    // Retrieve a project by ID
     public Projet findById(int id) {
-        return projetRepository.findById(id);
+        return projetRepository.findById(id).orElse(null);
     }
 
-    public void deleteProjetById(int id) {
-        projetRepository.deleteById(id);
+    // Update an existing project
+    public void update(Projet projet) {
+        projetRepository.save(projet);
     }
+
+
+
+
+    public void deleteProjectById(Integer idProj) {
+        projetRepository.deleteById(idProj);
+    }
+
 
 }

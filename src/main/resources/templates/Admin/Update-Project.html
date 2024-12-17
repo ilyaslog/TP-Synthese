@@ -10,49 +10,50 @@
 <div class="container mt-4">
     <h2 class="mb-3">Edit Project</h2>
     <form th:action="@{/ChefProjet/updateProject}" th:object="${projet}" method="post">
-        <input type="hidden" th:field="*{id}"/>
+        <!-- Hidden Field for Project ID -->
+        <input type="hidden" th:field="*{idProj}" />
 
+        <!-- Project Title -->
         <div class="form-group">
             <label for="titre">Title</label>
-            <input type="text" id="titre" th:field="*{titre}" class="form-control" required/>
+            <input type="text" id="titre" th:field="*{titre}" class="form-control" required />
         </div>
 
+        <!-- Project Description -->
         <div class="form-group">
             <label for="description">Description</label>
             <textarea id="description" th:field="*{description}" class="form-control" required></textarea>
         </div>
 
+        <!-- Start Date -->
         <div class="form-group">
             <label for="debutProj">Start Date</label>
-            <input type="date" id="debutProj" th:field="*{debutProj}" class="form-control" required/>
+            <input type="date" id="debutProj" th:field="*{debutProj}" class="form-control" required />
         </div>
 
+        <!-- End Date -->
         <div class="form-group">
             <label for="finProj">End Date</label>
-            <input type="date" id="finProj" th:field="*{finProj}" class="form-control" required/>
+            <input type="date" id="finProj" th:field="*{finProj}" class="form-control" required />
         </div>
 
+        <!-- Duration -->
         <div class="form-group">
             <label for="duree">Duration (in days)</label>
-            <input type="number" id="duree" th:field="*{duree}" class="form-control" required/>
+            <input type="number" id="duree" th:field="*{duree}" class="form-control" required />
         </div>
 
-        <div class="form-group">
-            <label for="statut">Status</label>
-            <select id="statut" th:field="*{statut}" class="form-control">
-                <option value="0">En cours</option>
-                <option value="1">Terminé</option>
-            </select>
-        </div>
-
+        <!-- Required Skills -->
         <div class="form-group">
             <label for="competencesRequise">Required Skills</label>
-            <input type="text" id="competencesRequise" th:field="*{competencesRequise}" class="form-control" required/>
+            <input type="text" id="competencesRequise" th:field="*{competencesRequise}" class="form-control" required />
         </div>
 
+        <!-- Submit Buttons -->
         <button type="submit" class="btn btn-primary">Update Project</button>
         <a th:href="@{/ChefProjet/Projet}" class="btn btn-secondary">Cancel</a>
     </form>
+
 </div>
 </body>
 </html>
