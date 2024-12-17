@@ -203,7 +203,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="availableDevs">Available Developers</label>
-                                        <select class="form-control" id="availableDevs" name="availableDevs" multiple>
+                                        <select class="form-control" id="availableDevs" multiple>
                                             <!-- Populate dynamically -->
                                             <option th:each="developer : ${developpers}" th:value="${developer.id}" th:text="${developer.name}"></option>
                                         </select>
@@ -211,6 +211,14 @@
                                     <div class="form-group col-md-6">
                                         <label for="assignedDevs">Assigned Developers</label>
                                         <select class="form-control" id="assignedDevs" name="assignedDevs" multiple></select>
+                                    </div>
+                                </div>
+
+                                <!-- Assign/Unassign Buttons -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-center">
+                                        <button type="button" class="btn btn-primary" id="assignButton">Assign</button>
+                                        <button type="button" class="btn btn-danger" id="unassignButton">Unassign</button>
                                     </div>
                                 </div>
 
@@ -225,6 +233,7 @@
                                 <!-- Submit Button -->
                                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
                             </form>
+
 
                         </div>
                     </div>
@@ -272,22 +281,18 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Deadline</th>
-                                    <th>Developers</th>
                                     <th>Description</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody id="projects-table">
-                                <tr >
-                                    <td >Project Title</td>
-                                    <td >2024-12-20</td>
-                                    <td >Alice, Bob</td>
-                                    <td >Develop a new feature</td>
+                                <tr th:each="project : ${projects}">
+                                    <td th:text="${project.titre}">Project Title</td>
+                                    <td th:text="${#dates.format(project.finProj, 'yyyy-MM-dd')}">2024-12-20</td>
+                                    <td th:text="${project.description}">Develop a new feature</td>
                                     <td>
-                            <span >
-                                <span >Status</span>
-                            </span>
+                                        <span th:text="${project.statut == 0 ? 'En cours' : 'Terminé'}">Status</span>
                                     </td>
                                     <td>
                                         <button class="btn btn-sm btn-warning">Edit</button>
@@ -327,7 +332,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     <!-- End of Main Content -->
 
 </div>

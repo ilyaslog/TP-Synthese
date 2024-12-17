@@ -39,4 +39,27 @@ public class ProjetService {
     public List<Projet> getAllProjets() {
         return projetRepository.findAll();
     }
+
+    public void updateProjetById(int id, Projet updatedProjet) {
+        Projet existingProjet = projetRepository.findById(id).orElse(null);
+        if (existingProjet != null) {
+            existingProjet.setTitre(updatedProjet.getTitre());
+            existingProjet.setDescription(updatedProjet.getDescription());
+            existingProjet.setDebutProj(updatedProjet.getDebutProj());
+            existingProjet.setFinProj(updatedProjet.getFinProj());
+            existingProjet.setDuree(updatedProjet.getDuree());
+            existingProjet.setStatut(updatedProjet.getStatut());
+            existingProjet.setCompetencesRequise(updatedProjet.getCompetencesRequise());
+            projetRepository.save(existingProjet);
+        }
+    }
+
+    public Projet findById(int id) {
+        return projetRepository.findById(id);
+    }
+
+    public void deleteProjetById(int id) {
+        projetRepository.deleteById(id);
+    }
+
 }

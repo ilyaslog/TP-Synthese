@@ -26,11 +26,11 @@
 
         private final ChefProjetService chefProjetService;
 
-        @Autowired
+
         private ProjetService projetService;
 
         @Autowired
-        public ChefProjetController(DevelopeurService developeurService, ChefProjetService chefProjetService) {
+        public ChefProjetController(DevelopeurService developeurService, ChefProjetService chefProjetService, ProjetService projetService) {
             this.developeurService = developeurService;
             this.chefProjetService = chefProjetService;
             this.projetService = projetService;
@@ -230,4 +230,27 @@
         public String showProfile() {
             return "/Admin/Profile"; // Path to your login page
         }
+
+
+
+        @GetMapping("/updateProjectForm")
+        public String showUpdateProjectForm(@RequestParam("id") int id, Model model) {
+            Projet projet = projetService.findById(id);
+            if (projet == null) {
+                return "redirect:/ChefProjet/Projet?error=notfound"; // Handle project not found
+            }
+            model.addAttribute("projet", projet);
+            return "/Admin/Update-Project"; // Path to your edit project HTML page
+        }
+
+            @PostMapping("/updateProject")
+            public String updateProject(@ModelAttribute("projet") Projet projet) {
+                if (projet.getId() != null) {
+                    projetService.updateProjetById(projet.getId(), projet);
+                }
+                return "redirect:/ChefProjet/Projet"; // Redirect back to the project list page
+            }
+
+
+
     }

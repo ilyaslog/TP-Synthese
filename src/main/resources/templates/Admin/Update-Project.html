@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Project</title>
+    <!-- Include CSS -->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="mb-3">Edit Project</h2>
+    <form th:action="@{/ChefProjet/updateProject}" th:object="${projet}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label for="titre">Title</label>
+            <input type="text" id="titre" th:field="*{titre}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" th:field="*{description}" class="form-control" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="debutProj">Start Date</label>
+            <input type="date" id="debutProj" th:field="*{debutProj}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="finProj">End Date</label>
+            <input type="date" id="finProj" th:field="*{finProj}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="duree">Duration (in days)</label>
+            <input type="number" id="duree" th:field="*{duree}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="statut">Status</label>
+            <select id="statut" th:field="*{statut}" class="form-control">
+                <option value="0">En cours</option>
+                <option value="1">Terminé</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="competencesRequise">Required Skills</label>
+            <input type="text" id="competencesRequise" th:field="*{competencesRequise}" class="form-control" required/>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Project</button>
+        <a th:href="@{/ChefProjet/Projet}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
