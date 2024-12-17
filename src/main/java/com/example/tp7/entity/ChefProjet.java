@@ -21,6 +21,9 @@ public class ChefProjet {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "Bio")
+    private String bio;
+
     @OneToMany(mappedBy = "chefProjet", cascade = CascadeType.ALL)
     private List<Projet> projets;
 

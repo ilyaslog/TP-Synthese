@@ -117,22 +117,15 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">Chef de Projet</span>
-                            <img class="img-profile rounded-circle" src="img/undraw_profile.svg" />
+                            <img class="img-profile rounded-circle" th:src="@{img/undraw_profile.svg}" />
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" th:href="@{/Profile}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
                             </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
-                            </a>
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -149,337 +142,178 @@
 
                 <div class="container-fluid">
 
-                    <!-- Content Row -->
-                    <div class="row">
-                        <!-- Total Projects -->
-                        <div class="container-fluid mt-4">
-                            <div class="text-center mb-4">
-                                <h1 class="text-primary">Project Management Dashboard</h1>
-                                <p class="text-muted">
-                                    Organize and monitor your projects effectively
-                                </p>
-                            </div>
+                    <!-- Header Section -->
+                    <div class="text-center mt-4">
+                        <h1 class="text-primary">Project Management Dashboard</h1>
+                        <p class="text-muted">Organize and monitor your projects effectively</p>
+                    </div>
 
-
-
-                            <div class="card mb-4">
-                                <div class="card-header bg-primary text-white">
-                                    <h4 class="card-title">Project Details</h4>
+                    <!-- Project Details Card -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="card-title">Project Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="projectDetailsForm" th:action="@{/assignDevelopers}" method="post">
+                                <!-- Input fields -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="Titre">Project Title</label>
+                                        <input type="text" class="form-control" id="Titre" placeholder="Enter project title" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="deadline">Deadline</label>
+                                        <input type="date" class="form-control" id="deadline-input" required>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <form id="projectDetailsForm" th:action="@{/assignDevelopers}" method="post">
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="Titre">Project Title</label>
-                                                <input type="text" class="form-control" id="Titre" placeholder="Enter project title" required>
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="deadline">Deadline</label>
-                                                <input type="date" class="form-control" id="deadline-input" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="competenceRequired">Required Competencies</label>
-                                                <select class="form-control" id="competenceRequired" name="competenceRequired" multiple>
-                                                    <option value="frontend">Frontend Development</option>
-                                                    <option value="backend">Backend Development</option>
-                                                    <option value="fullstack">Fullstack Development</option>
-                                                    <option value="design">UI/UX Design</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label for="availableDevs">Available Developers</label>
-                                                <select class="form-control" id="availableDevs" name="availableDevs" multiple>
-                                                    <!-- Loop through available developers dynamically (using Thymeleaf) -->
-                                                    <option th:each="developer : ${developpers}"
-                                                            th:value="${developer.id}"
-                                                            th:text="${developer.name}">
-                                                    </option>
-                                                </select>
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <button type="button" class="btn btn-primary" id="assignButton">Assign</button>
-                                                <button type="button" class="btn btn-danger" id="unassignButton">Unassign</button>
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label for="assignedDevs">Assigned Developers</label>
-                                                <select class="form-control" id="assignedDevs" name="assignedDevs" multiple>
-                                                    <!-- Assigned developers will be dynamically added here -->
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <div class="form-group col-md-12">
-                                                <label for="projectDetails">Project Description</label>
-                                                <textarea class="form-control" id="projectDetails" name="projectDetails" rows="3" placeholder="Describe the project" required></textarea>
-                                            </div>
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-
-                            <script>
-                                // JavaScript to handle developer assignment and unassignment
-
-                                document.getElementById("assignButton").addEventListener("click", function() {
-                                    const availableDevs = document.getElementById("availableDevs");
-                                    const assignedDevs = document.getElementById("assignedDevs");
-
-                                    // Move selected developers from available to assigned
-                                    Array.from(availableDevs.selectedOptions).forEach(option => {
-                                        assignedDevs.appendChild(option); // Move to assigned list
-                                    });
-                                });
-
-                                document.getElementById("unassignButton").addEventListener("click", function() {
-                                    const availableDevs = document.getElementById("availableDevs");
-                                    const assignedDevs = document.getElementById("assignedDevs");
-
-                                    // Move selected developers from assigned to available
-                                    Array.from(assignedDevs.selectedOptions).forEach(option => {
-                                        availableDevs.appendChild(option); // Move to available list
-                                    });
-                                });
-                            </script>
-
-
-                            <div class="card mb-4">
-                                <div class="card-header bg-dark text-white">
-                                    <h4 class="card-title">Project List</h4>
-                                </div>
-                                <div class="card-body p-0">
-                                    <!-- Search and Filter Section -->
-                                    <div class="d-flex justify-content-between p-3">
-                                        <!-- Search Input -->
-                                        <input type="text" id="search-projects" class="form-control w-50" placeholder="Search projects...">
-
-                                        <!-- Filter Dropdown -->
-                                        <select id="filter-status" class="form-control w-25">
-                                            <option value="">All Statuses</option>
-                                            <option value="In Progress">In Progress</option>
-                                            <option value="Completed">Completed</option>
-                                            <option value="Pending">Pending</option>
+                                <!-- Competencies & Developers -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="competenceRequired">Required Competencies</label>
+                                        <select class="form-control" id="competenceRequired" name="competenceRequired" multiple>
+                                            <option value="frontend">Frontend Development</option>
+                                            <option value="backend">Backend Development</option>
+                                            <option value="fullstack">Fullstack Development</option>
+                                            <option value="design">UI/UX Design</option>
                                         </select>
                                     </div>
-
-                                    <!-- Table -->
-                                    <table class="table table-hover">
-                                        <thead class="thead-dark">
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Deadline</th>
-                                            <th>Developers</th>
-                                            <th>Description</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody id="projects-table">
-                                        <tr>
-                                            <td>Project Alpha</td>
-                                            <td>2024-12-20</td>
-                                            <td>Alice, Bob</td>
-                                            <td>Develop a new feature</td>
-                                            <td>
-                                                <span class="badge badge-warning">In Progress</span>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </button>
-                                                <button class="btn btn-sm btn-danger">
-                                                    <i class="fas fa-trash"></i> Delete
-                                                </button>
-                                                <button class="btn btn-sm btn-success">
-                                                    <i class="fas fa-play"></i> Start Project
-                                                </button>
-                                                <button class="btn btn-sm btn-secondary">
-                                                    <i class="fas fa-stop"></i> Stop Project
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project Beta</td>
-                                            <td>2024-12-25</td>
-                                            <td>Charlie, Dave</td>
-                                            <td>Bug fixing</td>
-                                            <td>
-                                                <span class="badge badge-success">Completed</span>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </button>
-                                                <button class="btn btn-sm btn-danger">
-                                                    <i class="fas fa-trash"></i> Delete
-                                                </button>
-                                                <button class="btn btn-sm btn-success">
-                                                    <i class="fas fa-play"></i> Start Project
-                                                </button>
-                                                <button class="btn btn-sm btn-secondary">
-                                                    <i class="fas fa-stop"></i> Stop Project
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Project Gamma</td>
-                                            <td>2024-12-30</td>
-                                            <td>Eve, Frank</td>
-                                            <td>Refactoring</td>
-                                            <td>
-                                                <span class="badge badge-secondary">Pending</span>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-sm btn-warning">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </button>
-                                                <button class="btn btn-sm btn-danger">
-                                                    <i class="fas fa-trash"></i> Delete
-                                                </button>
-                                                <button class="btn btn-sm btn-success">
-                                                    <i class="fas fa-play"></i> Start Project
-                                                </button>
-                                                <button class="btn btn-sm btn-secondary">
-                                                    <i class="fas fa-stop"></i> Stop Project
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- Optionally include a script for search and filter functionality -->
-                            <script>
-                                document.getElementById('search-projects').addEventListener('input', function() {
-                                    const searchQuery = this.value.toLowerCase();
-                                    const rows = document.querySelectorAll('#projects-table tr');
-
-                                    rows.forEach(row => {
-                                        const name = row.cells[0].textContent.toLowerCase();
-                                        const description = row.cells[3].textContent.toLowerCase();
-                                        const deadline = row.cells[1].textContent.toLowerCase();
-                                        const developers = row.cells[2].textContent.toLowerCase();
-                                        const status = row.cells[4].textContent.toLowerCase();
-
-                                        if (name.includes(searchQuery) || description.includes(searchQuery) || deadline.includes(searchQuery) || developers.includes(searchQuery) || status.includes(searchQuery)) {
-                                            row.style.display = '';
-                                        } else {
-                                            row.style.display = 'none';
-                                        }
-                                    });
-                                });
-
-                                document.getElementById('filter-status').addEventListener('change', function() {
-                                    const filterQuery = this.value.toLowerCase();
-                                    const rows = document.querySelectorAll('#projects-table tr');
-
-                                    rows.forEach(row => {
-                                        const status = row.cells[4].textContent.toLowerCase();
-                                        if (filterQuery === '' || status.includes(filterQuery)) {
-                                            row.style.display = '';
-                                        } else {
-                                            row.style.display = 'none';
-                                        }
-                                    });
-                                });
-                            </script>
-
-
-
-                            <div
-                                    class="modal fade"
-                                    id="addProjectModal"
-                                    tabindex="-1"
-                                    role="dialog"
-                                    aria-labelledby="addProjectModalLabel"
-                                    aria-hidden="true"
-                            >
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="addProjectModalLabel">
-                                                Add New Project
-                                            </h5>
-                                            <button
-                                                    type="button"
-                                                    class="close"
-                                                    data-dismiss="modal"
-                                                    aria-label="Close"
-                                            >
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form id="addProjectForm">
-                                                <div class="form-group">
-                                                    <label for="projectName">Project Name</label>
-                                                    <input
-                                                            type="text"
-                                                            class="form-control"
-                                                            id="projectName"
-                                                            required
-                                                    />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="deadline">Deadline</label>
-                                                    <input
-                                                            type="date"
-                                                            class="form-control"
-                                                            id="deadline"
-                                                            required
-                                                    />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="devs">Assign Developers</label>
-                                                    <select
-                                                            class="form-control"
-                                                            id="devs"
-                                                            multiple
-                                                            required
-                                                    ></select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="description">Description</label>
-                                                    <textarea
-                                                            class="form-control"
-                                                            id="description"
-                                                            rows="3"
-                                                            required
-                                                    ></textarea>
-                                                </div>
-                                                <button type="submit" class="btn btn-primary btn-block">
-                                                    Add Project
-                                                </button>
-                                            </form>
-                                        </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="availableDevs">Available Developers</label>
+                                        <select class="form-control" id="availableDevs" name="availableDevs" multiple>
+                                            <!-- Populate dynamically -->
+                                            <option th:each="developer : ${developpers}" th:value="${developer.id}" th:text="${developer.name}"></option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
+                                <!-- Assign/Unassign Buttons -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <button type="button" class="btn btn-primary" id="assignButton">Assign</button>
+                                        <button type="button" class="btn btn-danger" id="unassignButton">Unassign</button>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="assignedDevs">Assigned Developers</label>
+                                        <select class="form-control" id="assignedDevs" name="assignedDevs" multiple></select>
+                                    </div>
+                                </div>
+                                <!-- Description -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <label for="projectDetails">Project Description</label>
+                                        <textarea class="form-control" id="projectDetails" name="projectDetails" rows="3" placeholder="Describe the project" required></textarea>
+                                    </div>
+                                </div>
+                                <!-- Submit -->
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                            </form>
                         </div>
-                    </div><!-- /.container-fluid -->
+                    </div>
+
+                    <!-- JavaScript for Assignment -->
+                    <script>
+                        document.getElementById("assignButton").addEventListener("click", function() {
+                            const availableDevs = document.getElementById("availableDevs");
+                            const assignedDevs = document.getElementById("assignedDevs");
+
+                            Array.from(availableDevs.selectedOptions).forEach(option => {
+                                assignedDevs.appendChild(option);
+                            });
+                        });
+
+                        document.getElementById("unassignButton").addEventListener("click", function() {
+                            const availableDevs = document.getElementById("availableDevs");
+                            const assignedDevs = document.getElementById("assignedDevs");
+
+                            Array.from(assignedDevs.selectedOptions).forEach(option => {
+                                availableDevs.appendChild(option);
+                            });
+                        });
+                    </script>
+
+                    <!-- Project List Card -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-dark text-white">
+                            <h4 class="card-title">Project List</h4>
+                        </div>
+                        <div class="card-body p-0">
+                            <!-- Search & Filter -->
+                            <div class="d-flex justify-content-between p-3">
+                                <input type="text" id="search-projects" class="form-control w-50" placeholder="Search projects...">
+                                <select id="filter-status" class="form-control w-25">
+                                    <option value="">All Statuses</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Pending">Pending</option>
+                                </select>
+                            </div>
+                            <!-- Table -->
+                            <table class="table table-hover">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Deadline</th>
+                                    <th>Developers</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody id="projects-table">
+                                <tr >
+                                    <td >Project Title</td>
+                                    <td >2024-12-20</td>
+                                    <td >Alice, Bob</td>
+                                    <td >Develop a new feature</td>
+                                    <td>
+                            <span >
+                                <span >Status</span>
+                            </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning">Edit</button>
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                        <button class="btn btn-sm btn-success">Start</button>
+                                        <button class="btn btn-sm btn-secondary">Stop</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <!-- Search & Filter Script -->
+                    <script>
+                        document.getElementById('search-projects').addEventListener('input', function() {
+                            const searchQuery = this.value.toLowerCase();
+                            const rows = document.querySelectorAll('#projects-table tr');
+
+                            rows.forEach(row => {
+                                const cells = Array.from(row.cells).map(cell => cell.textContent.toLowerCase());
+                                row.style.display = cells.some(text => text.includes(searchQuery)) ? '' : 'none';
+                            });
+                        });
+
+                        document.getElementById('filter-status').addEventListener('change', function() {
+                            const filterQuery = this.value.toLowerCase();
+                            const rows = document.querySelectorAll('#projects-table tr');
+
+                            rows.forEach(row => {
+                                const status = row.cells[4].textContent.toLowerCase();
+                                row.style.display = !filterQuery || status.includes(filterQuery) ? '' : 'none';
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>
-    </div>  <!-- End of Main Content -->
+        </div>
+    <!-- End of Main Content -->
+
 </div>
 
 <!-- End of Content Wrapper -->
-<footer class="sticky-footer bg-white">
-    <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2020</span>
-        </div>
-    </div>
-</footer>
+
 
 <!-- End of Page Wrapper -->
 
@@ -501,7 +335,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" th:href="@{/ChefProjet/login}">Logout</a>
             </div>
         </div>
     </div>

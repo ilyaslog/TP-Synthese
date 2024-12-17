@@ -24,6 +24,9 @@ public class Developeur {
     @Column(name = "competences")
     private String competences;
 
+    @Column(name = "Bio")
+    private String bio;
+
     @OneToMany(mappedBy = "developpeur", cascade = CascadeType.ALL)
     private List<ProjDev> projDevs;
 

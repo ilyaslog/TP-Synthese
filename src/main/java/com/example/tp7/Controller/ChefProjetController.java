@@ -2,14 +2,17 @@
 
     import com.example.tp7.Service.ChefProjetService;
     import com.example.tp7.Service.DevelopeurService;
+    import com.example.tp7.Service.ProjetService;
     import com.example.tp7.entity.ChefProjet;
     import com.example.tp7.entity.Developeur;
+    import com.example.tp7.entity.Projet;
     import jakarta.servlet.http.HttpSession;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.*;
 
+    import java.util.Date;
     import java.util.List;
 
     @Controller
@@ -20,12 +23,14 @@
 
         private final ChefProjetService chefProjetService;
 
+        @Autowired
+        private ProjetService projetService;
 
         @Autowired
         public ChefProjetController(DevelopeurService developeurService, ChefProjetService chefProjetService) {
             this.developeurService = developeurService;
             this.chefProjetService = chefProjetService;
-
+            this.projetService = projetService;
         }
 
         // Show form to add a new developer
@@ -34,20 +39,51 @@
             model.addAttribute("developeur", new Developeur());
             return "/Admin/Dev-Form";
         }
+        @PostMapping("/saveProject")
+        public String saveProject(@RequestParam String titre,
+                                  @RequestParam String description,
+                                  @RequestParam Date debutProj,
+                                  @RequestParam Date finProj,
+                                  @RequestParam int duree,
+                                  @RequestParam String competencesRequise,
+                                  @RequestParam Integer chefProjetId) {
 
+            // Create a new project
+            Projet projet = new Projet();
+            projet.setTitre(titre);
+            projet.setDescription(description);
+            projet.setDebutProj(debutProj);
+            projet.setFinProj(finProj);
+            projet.setDuree(duree);
+            projet.setCompetencesRequise(competencesRequise);
+
+            // Example of linking with ChefProjet entity (you'd fetch ChefProjet from DB)
+            ChefProjet chefProjet = new ChefProjet();
+            chefProjet.setId(chefProjetId);
+            projet.setChefProjet(chefProjet);
+
+            projetService.saveProjet(projet);
+
+            return "redirect:/projet";
+        }
         @GetMapping("/Dashboard")
         public String showDashboard(Model model) {
             return "/Admin/Dashboard";
         }
+
         @GetMapping("/Projet")
         public String showProjet(Model model) {
-            // Retrieve all developers from the service
-            List<Developeur> developers = developeurService.findAll();
+            List<Developeur> developpers = developeurService.findAll();
+            List<Projet> projects = projetService.getAllProjets();
 
-            // Add the developers to the model for use in the view
-            model.addAttribute("developpers", developers);
+            if (projects.isEmpty()) {
+                System.out.println("No projects found in the database!");
+            } else {
+                System.out.println("Fetched projects: " + projects.size());
+            }
 
-            // Return the view
+            model.addAttribute("developpers", developpers);
+            model.addAttribute("projects", projects);
             return "/Admin/Project";
         }
 
@@ -155,4 +191,8 @@
             }
         }
 
+        @GetMapping("/Profile")
+        public String showProfile() {
+            return "/Admin/Profile"; // Path to your login page
+        }
     }
