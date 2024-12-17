@@ -5,15 +5,18 @@
     import com.example.tp7.Service.ProjetService;
     import com.example.tp7.entity.ChefProjet;
     import com.example.tp7.entity.Developeur;
+    import com.example.tp7.entity.ProjDev;
     import com.example.tp7.entity.Projet;
     import jakarta.servlet.http.HttpSession;
     import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.format.annotation.DateTimeFormat;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.*;
 
     import java.util.Date;
     import java.util.List;
+    import java.util.stream.Collectors;
 
     @Controller
     @RequestMapping("/ChefProjet")
@@ -40,13 +43,19 @@
             return "/Admin/Dev-Form";
         }
         @PostMapping("/saveProject")
-        public String saveProject(@RequestParam String titre,
-                                  @RequestParam String description,
-                                  @RequestParam Date debutProj,
-                                  @RequestParam Date finProj,
-                                  @RequestParam int duree,
-                                  @RequestParam String competencesRequise,
-                                  @RequestParam Integer chefProjetId) {
+        public String saveProjectWithDevelopers(
+                @RequestParam("titre") String titre,
+                @RequestParam("description") String description,
+                @RequestParam("debutProj") @DateTimeFormat(pattern = "yyyy-MM-dd") Date debutProj,
+                @RequestParam("finProj") @DateTimeFormat(pattern = "yyyy-MM-dd") Date finProj,
+                @RequestParam("duree") int duree,
+                @RequestParam("statut") int statut,
+                @RequestParam("competencesRequise") String competencesRequise,
+                @RequestParam("assignedDevs") List<Integer> developerIds) {
+
+            // Log input data for debugging
+            System.out.println("Saving project with title: " + titre);
+            System.out.println("Assigned developers: " + developerIds);
 
             // Create a new project
             Projet projet = new Projet();
@@ -56,21 +65,27 @@
             projet.setFinProj(finProj);
             projet.setDuree(duree);
             projet.setCompetencesRequise(competencesRequise);
+            projet.setStatut(statut);
 
-            // Example of linking with ChefProjet entity (you'd fetch ChefProjet from DB)
-            ChefProjet chefProjet = new ChefProjet();
-            chefProjet.setId(chefProjetId);
+            // Link project to ChefProjet (ID = 1)
+            ChefProjet chefProjet = chefProjetService.findById(1);
+            if (chefProjet == null) {
+                throw new IllegalStateException("ChefProjet with ID 1 not found!");
+            }
             projet.setChefProjet(chefProjet);
 
-            projetService.saveProjet(projet);
+            // Create ProjDev instances for the developers
+            List<ProjDev> projDevs = developerIds.stream()
+                    .map(devId -> new ProjDev(projet, developeurService.findById(devId), "Assigned", 0))
+                    .collect(Collectors.toList());
 
-            return "redirect:/projet";
-        }
-        @GetMapping("/Dashboard")
-        public String showDashboard(Model model) {
-            return "/Admin/Dashboard";
+            // Save project with developers
+            projetService.saveProjetWithDevelopers(projet, projDevs);
+
+            return "redirect:/ChefProjet/Projet"; // Redirect to project listing page
         }
 
+        // Display the list of projects and developers
         @GetMapping("/Projet")
         public String showProjet(Model model) {
             List<Developeur> developpers = developeurService.findAll();
@@ -86,6 +101,12 @@
             model.addAttribute("projects", projects);
             return "/Admin/Project";
         }
+        @GetMapping("/Dashboard")
+        public String showDashboard(Model model) {
+            return "/Admin/Dashboard";
+        }
+
+
 
 
         // Save developer details from the form

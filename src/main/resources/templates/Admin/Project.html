@@ -154,23 +154,39 @@
                             <h4 class="card-title">Project Details</h4>
                         </div>
                         <div class="card-body">
-                            <form id="projectDetailsForm" th:action="@{/assignDevelopers}" method="post">
-                                <!-- Input fields -->
+                            <form id="projectDetailsForm" th:action="@{/ChefProjet/saveProject}" method="post">
+                                <!-- Project Title -->
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="Titre">Project Title</label>
-                                        <input type="text" class="form-control" id="Titre" placeholder="Enter project title" required>
+                                        <label for="titre">Project Title</label>
+                                        <input type="text" class="form-control" id="titre" name="titre" placeholder="Enter project title" required>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="deadline">Deadline</label>
-                                        <input type="date" class="form-control" id="deadline-input" required>
+                                        <label for="statut">Project Status</label>
+                                        <select class="form-control" id="statut" name="statut" required>
+                                            <option value="0">In Progress</option>
+                                            <option value="1">Completed</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <!-- Competencies & Developers -->
+
+                                <!-- Dates: Start Date and Deadline -->
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
-                                        <label for="competenceRequired">Required Competencies</label>
-                                        <select class="form-control" id="competenceRequired" name="competenceRequired" multiple>
+                                        <label for="debutProj">Start Date</label>
+                                        <input type="date" class="form-control" id="debutProj" name="debutProj" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="finProj">Deadline</label>
+                                        <input type="date" class="form-control" id="finProj" name="finProj" required>
+                                    </div>
+                                </div>
+
+                                <!-- Competencies & Duration -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="competencesRequise">Required Competencies</label>
+                                        <select class="form-control" id="competencesRequise" name="competencesRequise" multiple>
                                             <option value="frontend">Frontend Development</option>
                                             <option value="backend">Backend Development</option>
                                             <option value="fullstack">Fullstack Development</option>
@@ -178,34 +194,47 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-6">
+                                        <label for="duree">Duration (in days)</label>
+                                        <input type="number" class="form-control" id="duree" name="duree" placeholder="Enter project duration" required>
+                                    </div>
+                                </div>
+
+                                <!-- Developers -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
                                         <label for="availableDevs">Available Developers</label>
-                                        <select class="form-control" id="availableDevs" name="availableDevs" multiple>
+                                        <select class="form-control" id="availableDevs" multiple>
                                             <!-- Populate dynamically -->
                                             <option th:each="developer : ${developpers}" th:value="${developer.id}" th:text="${developer.name}"></option>
                                         </select>
-                                    </div>
-                                </div>
-                                <!-- Assign/Unassign Buttons -->
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <button type="button" class="btn btn-primary" id="assignButton">Assign</button>
-                                        <button type="button" class="btn btn-danger" id="unassignButton">Unassign</button>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="assignedDevs">Assigned Developers</label>
                                         <select class="form-control" id="assignedDevs" name="assignedDevs" multiple></select>
                                     </div>
                                 </div>
+
+                                <!-- Assign/Unassign Buttons -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 text-center">
+                                        <button type="button" class="btn btn-primary" id="assignButton">Assign</button>
+                                        <button type="button" class="btn btn-danger" id="unassignButton">Unassign</button>
+                                    </div>
+                                </div>
+
                                 <!-- Description -->
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <label for="projectDetails">Project Description</label>
-                                        <textarea class="form-control" id="projectDetails" name="projectDetails" rows="3" placeholder="Describe the project" required></textarea>
+                                        <label for="description">Project Description</label>
+                                        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Describe the project" required></textarea>
                                     </div>
                                 </div>
-                                <!-- Submit -->
+
+                                <!-- Submit Button -->
                                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
                             </form>
+
+
                         </div>
                     </div>
 

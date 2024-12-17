@@ -30,6 +30,14 @@
             @Column(name = "Duree")
             private Integer duree;
 
+            public int getStatut() {
+                return statut;
+            }
+
+            public void setStatut(int statut) {
+                this.statut = statut;
+            }
+
             @Column(name = "Statut")
             private int statut; // 0: en cours, 1: terminé
             @Column(name = "Competences_Requise")
