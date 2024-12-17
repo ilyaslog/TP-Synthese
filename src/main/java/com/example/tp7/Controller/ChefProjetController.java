@@ -102,10 +102,20 @@
             return "/Admin/Project";
         }
         @GetMapping("/Dashboard")
-        public String showDashboard(Model model) {
-            return "/Admin/Dashboard";
-        }
 
+        public String showDashboard(HttpSession session, Model model) {
+            // Check if a valid user session exists
+            Object chefprojet = session.getAttribute("chefprojet");
+
+            if (chefprojet == null) {
+                model.addAttribute("error", "You must log in first!");
+                return "/Admin/login-chef";
+            }
+
+            // Pass session attributes to the view if needed
+            model.addAttribute("chefprojet", chefprojet);
+            return "Admin/Dashboard";
+        }
 
 
 
@@ -115,6 +125,7 @@
         @RequestMapping("/save")
             public String saveDev(@ModelAttribute("developeur") Developeur developeur) {
             developeurService.save(developeur);
+            
             return "redirect:/ChefProjet/list";
         }
 
@@ -181,15 +192,18 @@
         }
 
         @GetMapping("/dashboard")
-        public String showDashboard(Model model, HttpSession session) {
-            ChefProjet chefProjet = (ChefProjet) session.getAttribute("chefprojet");
+        public String dashboard(HttpSession session, Model model) {
+            // Check if a valid user session exists
+            Object chefprojet = session.getAttribute("chefprojet");
 
-            if (chefProjet == null) {
-                return "redirect:/ChefProjet/login"; // Redirect to login if session is missing
+            if (chefprojet == null) {
+                model.addAttribute("error", "You must log in first!");
+                return "/Admin/login-chef";
             }
 
-            model.addAttribute("chefProjet", chefProjet);
-            return "/Admin/Dashboard"; // Replace with your actual dashboard template
+            // Pass session attributes to the view if needed
+            model.addAttribute("chefprojet", chefprojet);
+            return "Admin/Dashboard";
         }
 
         // Show forgot password form

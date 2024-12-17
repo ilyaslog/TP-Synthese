@@ -203,7 +203,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="availableDevs">Available Developers</label>
-                                        <select class="form-control" id="availableDevs" multiple>
+                                        <select class="form-control" id="availableDevs" name="availableDevs" multiple>
                                             <!-- Populate dynamically -->
                                             <option th:each="developer : ${developpers}" th:value="${developer.id}" th:text="${developer.name}"></option>
                                         </select>
@@ -211,14 +211,6 @@
                                     <div class="form-group col-md-6">
                                         <label for="assignedDevs">Assigned Developers</label>
                                         <select class="form-control" id="assignedDevs" name="assignedDevs" multiple></select>
-                                    </div>
-                                </div>
-
-                                <!-- Assign/Unassign Buttons -->
-                                <div class="form-row">
-                                    <div class="form-group col-md-12 text-center">
-                                        <button type="button" class="btn btn-primary" id="assignButton">Assign</button>
-                                        <button type="button" class="btn btn-danger" id="unassignButton">Unassign</button>
                                     </div>
                                 </div>
 
@@ -233,7 +225,6 @@
                                 <!-- Submit Button -->
                                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
                             </form>
-
 
                         </div>
                     </div>
