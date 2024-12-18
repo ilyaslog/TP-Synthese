@@ -18,9 +18,14 @@ public interface ProjDevRepository extends JpaRepository<ProjDev, Integer> {
     @Query("SELECT pd FROM ProjDev pd WHERE pd.projet.idProj = :projectId AND pd.developpeur.id = :developerId")
     Optional<ProjDev> findByProjet_IdProjAndDeveloppeur_Id(@Param("projectId") Integer projectId, @Param("developerId") Integer developerId);
 
+   @Query("SELECT COUNT(p) FROM Projet p WHERE p.statut = 1 AND p.chefProjet.id = :idChef")
+    long countFinishedProjectsByChef(@Param("idChef") Integer idChef);
 
+    @Query("SELECT COUNT(p) FROM Projet p WHERE p.statut = 0 AND p.chefProjet.id = :idChef")
+    long countUnfinishedProjectsByChef(@Param("idChef") Integer idChef);
 
-
+  @Query("SELECT AVG(pd.stars) FROM ProjDev pd JOIN pd.projet p WHERE p.chefProjet.id = :idChef")
+    Double findAverageRatingByChef(@Param("idChef") Integer idChef);
 
 
 }

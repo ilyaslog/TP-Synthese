@@ -1,4 +1,4 @@
-package com.example.tp7.config;
+package com.example.tp7.Controller;
 
 import com.example.tp7.interceptor.SessionInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;

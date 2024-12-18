@@ -12,5 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ProjetRepository extends JpaRepository<Projet, Integer> {
+    List<Projet> findByStatut(int statut);
 
+    List<Projet> findBystatut(int i);
 }

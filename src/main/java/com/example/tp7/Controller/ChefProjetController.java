@@ -26,30 +26,36 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+
 @Controller
 @RequestMapping("/ChefProjet")
 public class ChefProjetController {
 
+
     private final DevelopeurService developeurService;
-
     private final ChefProjetService chefProjetService;
-
-    private ProjDevService projDevService;
+    private final ProjDevService projDevService;  // Constructor injection
+    private final ProjDevRepository projDevRepository;
 
     @Autowired
     private ProjetRepository projetRepository;
 
     @Autowired
-    private ProjDevRepository projDevRepository;
-    @Autowired
     private ProjetService projetService;
 
+    // Constructor injection for services
     @Autowired
-    public ChefProjetController(DevelopeurService developeurService, ChefProjetService chefProjetService) {
+    public ChefProjetController(DevelopeurService developeurService,
+                                ChefProjetService chefProjetService,
+                                ProjDevService projDevService,
+                                ProjDevRepository projDevRepository) {
         this.developeurService = developeurService;
         this.chefProjetService = chefProjetService;
-        this.projetService = projetService;
+        this.projDevService = projDevService;  // Constructor injection
+        this.projDevRepository = projDevRepository;
     }
+
 
     // Show form to add a new developer
     @GetMapping("/showForm")
@@ -115,10 +121,6 @@ public class ChefProjetController {
         model.addAttribute("developpers", developpers);
         model.addAttribute("projects", projects);
         return "/Admin/Project";
-    }
-    @GetMapping("/Dashboard")
-    public String showDashboard(Model model) {
-        return "/Admin/Dashboard";
     }
 
     // Save developer details from the form
@@ -192,18 +194,32 @@ public class ChefProjetController {
         }
     }
 
-    @GetMapping("/dashboard")
+   @GetMapping({"/dashboard", "/Dashboard"})
     public String showDashboard(Model model, HttpSession session) {
         ChefProjet chefProjet = (ChefProjet) session.getAttribute("chefprojet");
-
         if (chefProjet == null) {
-            return "redirect:/ChefProjet/login"; // Redirect to  if session is missing
+            return "redirect:/login"; // Redirect to login if session is missing
         }
+        Integer idChef = chefProjet.getId();
 
-        model.addAttribute("chefProjet", chefProjet);
-        return "/Admin/Dashboard"; // Replace with your actual dashboard template
+
+
+        long finishedProjects = projDevService.getFinishedProjectsByChef(idChef);
+        long unfinishedProjects = projDevService.getUnfinishedProjectsByChef(idChef);
+        Double averageRating = projDevService.getAverageRatingByChef(idChef);
+
+        // Add the fetched data to the model
+       List<Projet> ongoingProjects = projetService.getOngoingProjects(); // Fetch ongoing projects
+       List<Projet> completedProjects = projetService.getCompletedProjects(); // Fetch completed projects\
+
+       model.addAttribute("ongoingProjects", ongoingProjects); // Add ongoing projects to model
+       model.addAttribute("completedProjects", completedProjects); // Add completed projects to model
+
+        model.addAttribute("finishedProjects", finishedProjects);
+        model.addAttribute("unfinishedProjects", unfinishedProjects);
+        model.addAttribute("averageRating", averageRating != null ? averageRating : 0.0);
+        return "/Admin/Dashboard";
     }
-
     // Show forgot password form
     @GetMapping("/forgot-password")
     public String showForgotPasswordForm() {

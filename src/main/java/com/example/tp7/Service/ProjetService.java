@@ -68,5 +68,11 @@ public class ProjetService {
         return projetRepository.findById(projetId).orElse(null);
     }
 
+    public List<Projet> getOngoingProjects() {
+        return  projetRepository.findBystatut(0); // Status 0 means ongoing projects
+    }
 
+    public List<Projet> getCompletedProjects() {
+        return projetRepository.findBystatut(1); // Status 1 means completed projects
+    }
 }
