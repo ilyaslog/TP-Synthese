@@ -72,11 +72,21 @@ public class ChefProjetController {
             @RequestParam("duree") int duree,
             @RequestParam("statut") int statut,
             @RequestParam("competencesRequise") String competencesRequise,
-            @RequestParam("assignedDevs") List<Integer> developerIds) {
-
+            @RequestParam("assignedDevs") List<Integer> developerIds,
+            HttpSession session // To get the logged-in ChefProjet
+    ) {
         // Log input data for debugging
         System.out.println("Saving project with title: " + titre);
         System.out.println("Assigned developers: " + developerIds);
+
+        // Retrieve the logged-in ChefProjet from the session
+        ChefProjet chefProjet = (ChefProjet) session.getAttribute("chefprojet");
+        if (chefProjet == null) {
+            throw new IllegalStateException("ChefProjet is not logged in or session expired!");
+        }
+
+        // Log ChefProjet ID
+        System.out.println("Logged-in ChefProjet ID: " + chefProjet.getId());
 
         // Create a new project
         Projet projet = new Projet();
@@ -88,11 +98,7 @@ public class ChefProjetController {
         projet.setCompetencesRequise(competencesRequise);
         projet.setStatut(statut);
 
-        // Link project to ChefProjet (ID = 1)
-        ChefProjet chefProjet = chefProjetService.findById(1);
-        if (chefProjet == null) {
-            throw new IllegalStateException("ChefProjet with ID 1 not found!");
-        }
+        // Set the ChefProjet to the project
         projet.setChefProjet(chefProjet);
 
         // Create ProjDev instances for the developers
@@ -103,8 +109,8 @@ public class ChefProjetController {
         // Save project with developers
         projetService.saveProjetWithDevelopers(projet, projDevs);
 
-        return "redirect:/ChefProjet/Projet"; // Redirect to project listing page
-    }
+        return "redirect:/ChefProjet/Projet"; // Redirect to project listing page
+}
 
     // Display the list of projects and developers
     @GetMapping("/Projet")
@@ -201,10 +207,6 @@ public class ChefProjetController {
             return "redirect:/login"; // Redirect to login if session is missing
         }
         Integer idChef = chefProjet.getId();
-
-
-
-
 
         long finishedProjects = projDevService.getFinishedProjectsByChef(idChef);
         long unfinishedProjects = projDevService.getUnfinishedProjectsByChef(idChef);

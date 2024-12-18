@@ -91,6 +91,16 @@ public class DevelopeurController {
             return "redirect:/developer/login"; // Redirect to login if not logged in
         }
     }
+    @PostMapping("/update")
+    public String updateDev(@ModelAttribute("developeur") Developeur developeur, Model model) {
+        if (developeur.getId() != null) {
+            developeurService.updateByid(developeur.getId(), developeur);
+        }
+        model.addAttribute("developer", developeur);
+
+        // Return the same page (profile page in this case)
+        return "Profile-dev"; // or the name of the page you are updating
+    }
 
     // Logout and invalidate the session
     @GetMapping("/logout")
