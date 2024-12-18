@@ -9,7 +9,7 @@
     <title>Project Review</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link rel="stylesheet" href="path/to/bootstrap.css">
+    <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}">
     <style>
         .star-rating {
             display: flex;
@@ -34,26 +34,40 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="text-center">Project Review</h1>
+    <h1 class="text-center">Review Developers</h1>
     <form action="/ChefProjet/submitReview" method="POST">
-        <div class="form-group">
-            <label for="stars">Rating:</label>
-            <div class="star-rating">
-                <input type="radio" name="stars" id="star5" value="5" th:checked="${projDev.stars == 5}"><label for="star5">&#9733;</label>
-                <input type="radio" name="stars" id="star4" value="4" th:checked="${projDev.stars == 4}"><label for="star4">&#9733;</label>
-                <input type="radio" name="stars" id="star3" value="3" th:checked="${projDev.stars == 3}"><label for="star3">&#9733;</label>
-                <input type="radio" name="stars" id="star2" value="2" th:checked="${projDev.stars == 2}"><label for="star2">&#9733;</label>
-                <input type="radio" name="stars" id="star1" value="1" th:checked="${projDev.stars == 1}"><label for="star1">&#9733;</label>
+        <div th:each="projDev : ${projDevs}">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 th:text="${projDev.developpeur.name}">Developer Name</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label>Rating:</label>
+                        <div class="star-rating">
+                            <input type="radio" th:name="'stars_' + ${projDev.developpeur.id}" th:id="'star5_' + ${projDev.developpeur.id}" value="5" th:checked="${projDev.stars == 5}">
+                            <label th:for="'star5_' + ${projDev.developpeur.id}">&#9733;</label>
+                            <input type="radio" th:name="'stars_' + ${projDev.developpeur.id}" th:id="'star4_' + ${projDev.developpeur.id}" value="4" th:checked="${projDev.stars == 4}">
+                            <label th:for="'star4_' + ${projDev.developpeur.id}">&#9733;</label>
+                            <input type="radio" th:name="'stars_' + ${projDev.developpeur.id}" th:id="'star3_' + ${projDev.developpeur.id}" value="3" th:checked="${projDev.stars == 3}">
+                            <label th:for="'star3_' + ${projDev.developpeur.id}">&#9733;</label>
+                            <input type="radio" th:name="'stars_' + ${projDev.developpeur.id}" th:id="'star2_' + ${projDev.developpeur.id}" value="2" th:checked="${projDev.stars == 2}">
+                            <label th:for="'star2_' + ${projDev.developpeur.id}">&#9733;</label>
+                            <input type="radio" th:name="'stars_' + ${projDev.developpeur.id}" th:id="'star1_' + ${projDev.developpeur.id}" value="1" th:checked="${projDev.stars == 1}">
+                            <label th:for="'star1_' + ${projDev.developpeur.id}">&#9733;</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="commentaire">Comment:</label>
+                        <textarea class="form-control" th:name="'commentaire_' + ${projDev.developpeur.id}" rows="4" th:placeholder="'Review for ' + ${projDev.developpeur.name}" required></textarea>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label for="commentaire">Comment:</label>
-            <textarea class="form-control" id="commentaire" name="commentaire" rows="4" placeholder="Write your review here..." required></textarea>
-        </div>
-        <input type="hidden" name="projectId" th:value="${projet.idProj}" />
-        <input type="hidden" name="developerId" th:value="${developer.id}" />
-        <button type="submit" class="btn btn-primary btn-block">Submit Review</button>
+        <input type="hidden" name="projectId" th:value="${idProj}" />
+        <button type="submit" class="btn btn-primary btn-block">Submit Reviews</button>
     </form>
+
 </div>
 </body>
 </html>
