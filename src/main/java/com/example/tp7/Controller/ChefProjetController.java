@@ -1,9 +1,7 @@
 package com.example.tp7.Controller;
 
-import com.example.tp7.DAO.ProjDevRepository;
 import com.example.tp7.Service.ChefProjetService;
 import com.example.tp7.Service.DevelopeurService;
-import com.example.tp7.Service.ProjDevService;
 import com.example.tp7.Service.ProjetService;
 import com.example.tp7.entity.ChefProjet;
 import com.example.tp7.entity.Developeur;
@@ -32,10 +30,6 @@ public class ChefProjetController {
 
     private final ChefProjetService chefProjetService;
 
-    private ProjDevService projDevService;
-
-    @Autowired
-    private ProjDevRepository projDevRepository;
     @Autowired
     private ProjetService projetService;
 
@@ -292,60 +286,5 @@ public class ChefProjetController {
         }
         return "redirect:/ChefProjet/Projet";
     }
-
-
-
-    // Show review page
-    @GetMapping("/review/{idProj}")
-    public String showReviewPage(@PathVariable("idProj") Integer idProj, Model model) {
-        // Retrieve project by ID
-        Projet projet = projetService.findById(idProj);
-
-        if (projet != null) {
-            // Fetch the ProjDev instance by project ID
-            ProjDev projDev = projDevRepository.findByProjet_IdProj(idProj);
-
-            if (projDev != null) {
-                // Pass project and developer info to the review page
-                model.addAttribute("projet", projet);
-                model.addAttribute("developer", projDev.getDeveloppeur());
-            } else {
-                model.addAttribute("error", "Developer information not found for this project.");
-            }
-        } else {
-            model.addAttribute("error", "Project not found.");
-        }
-
-        return "Project-Review"; // Name of your review page
-    }
-
-    // Submit review for a developer in a project
-    @PostMapping("/submitReview")
-    public String submitReview(@RequestParam("projectId") Integer projectId,
-                               @RequestParam("developerId") Integer developerId,
-                               @RequestParam("stars") Integer stars,
-                               @RequestParam("commentaire") String commentaire,
-                               RedirectAttributes redirectAttributes) {
-
-        // Fetch the ProjDev entity using project and developer IDs
-        ProjDev projDev = projDevRepository.findByProjet_IdProjAndDeveloppeur_Id(projectId, developerId);
-
-        if (projDev != null) {
-            // Update the ProjDev entity with review data
-            projDev.setStars(stars);
-            projDev.setCommentaire(commentaire);
-
-            // Save the updated ProjDev
-            projDevRepository.save(projDev);
-
-            redirectAttributes.addFlashAttribute("success", "Review submitted successfully!");
-        } else {
-            redirectAttributes.addFlashAttribute("error", "Developer or project not found.");
-        }
-
-        return "redirect:/ChefProjet/Projet"; // Redirect back to the project listing page
-    }
-
-
 
 }

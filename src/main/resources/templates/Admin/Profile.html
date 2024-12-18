@@ -101,8 +101,8 @@
           <!-- Nav Item - User Information -->
           <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Chef de Projet</span>
-              <img class="img-profile rounded-circle" src="@{/img/undraw_profile.svg}" />
+
+              <img class="img-profile rounded-circle" src="/img/undraw_profile.svg" />
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -110,14 +110,7 @@
                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                 Profile
               </a>
-              <a class="dropdown-item" href="#">
-                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                Settings
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                Activity Log
-              </a>
+
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -142,11 +135,10 @@
               <div class="card-body">
                 <div class="text-center">
                   <img class="img-profile rounded-circle" src="/img/undraw_profile.svg" alt="User Profile" style="width: 150px; height: 150px" />
-                  <h5 class="mt-2">Douglas McGee</h5>
-                  <p class="text-muted">Web Developer</p>
+                  <h5 th:text="${chefProjet.name}"></h5>
+
                 </div>
-                <hr />
-                <a href="#" class="btn btn-primary btn-block">Edit Profile</a>
+
               </div>
             </div>
           </div>
@@ -156,29 +148,32 @@
             <div class="card mb-4">
               <div class="card-header">Profile Details</div>
               <div class="card-body">
-                <form th:action="@{/ChefProjet/update}" th:object="${chefProjet}" method="post">
+                <form method="post">
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="inputName">Full Name</label>
-                      <!-- Displaying data using h5 for display, input for edit -->
-                      <h5 th:text="${chefProjet.name}">Douglas McGee</h5>
-                      <input type="text" class="form-control" id="inputName"  placeholder="Enter full name" />
+                      <input type="text" class="form-control" id="inputName" th:value="${chefProjet.name}" />
                     </div>
+
                     <div class="form-group col-md-6">
                       <label for="inputUsername">Username</label>
-                      <h5 th:text="${chefProjet.login}">douglasmcgee</h5>
-                      <input type="text" class="form-control" id="inputUsername"  placeholder="Enter username" />
+                      <input type="text" class="form-control" id="inputUsername" th:value="${chefProjet.login}" />
                     </div>
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group text-center">
                     <label for="inputBio">Bio</label>
-                    <h5 th:text="${chefProjet.bio}">Web developer with 5+ years of experience in frontend and backend technologies. Passionate about creating user-friendly and efficient solutions.</h5>
-                    <textarea class="form-control" id="inputBio" rows="3"  placeholder="Enter bio"></textarea>
+                    <input class="form-control mx-auto" id="inputBio" th:value="${chefProjet.bio}" placeholder="Enter bio" style="max-width: 500px;" />
                   </div>
 
-                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <!-- Center the submit button -->
+                  <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                  </div>
                 </form>
+
+
+
 
               </div>
             </div>
@@ -207,6 +202,7 @@
 </a>
 
 <!-- Logout Modal-->
+<!-- Logout Modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -219,11 +215,14 @@
       <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
       <div class="modal-footer">
         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <a class="btn btn-primary" href="login.html">Logout</a>
+        <!-- Changed the anchor to a button and connected it to the logout function -->
+        <a class="btn btn-primary" type="button" th:href="@{/ChefProjet/logout}">Logout</a>
       </div>
     </div>
   </div>
 </div>
+
+
 
 <!-- JavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

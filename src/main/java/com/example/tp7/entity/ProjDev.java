@@ -15,6 +15,10 @@ public class ProjDev {
     @JoinColumn(name = "idProj", referencedColumnName = "idProj")
     private Projet projet;
 
+    public Developeur getDeveloppeur() {
+        return developpeur;
+    }
+
     @ManyToOne
     @JoinColumn(name = "idDev", referencedColumnName = "id")
     private Developeur developpeur;
