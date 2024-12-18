@@ -224,10 +224,15 @@ public class ChefProjetController {
         }
     }
 
-    @GetMapping("/Profile")
-    public String showProfile() {
-        return "/Admin/Profile"; // Path to your login page
+@GetMapping("/Profile")
+public String showProfile(HttpSession session, Model model) {
+    ChefProjet chefProjet = (ChefProjet) session.getAttribute("chefprojet");
+    if (chefProjet == null) {
+        return "redirect:/ChefProjet/login"; // Redirect to login if session is missing
     }
+    model.addAttribute("chefProjet", chefProjet);
+    return "/Admin/Profile"; // Path to your profile page
+}
 
     // Display edit form for a specific project
     @GetMapping("/edit/{id}")
@@ -399,6 +404,10 @@ public class ChefProjetController {
 
         return "/Admin/Project-Details";
     }
-
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/ChefProjet/login";
+    }
 
 }
