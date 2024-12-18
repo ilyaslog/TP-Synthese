@@ -52,6 +52,14 @@ public ProjDev() {
         this.projet = projet;
     }
 
+    public Developeur getDeveloppeur() {
+        return developpeur;
+    }
+
+    public void setDeveloppeur(Developeur developpeur) {
+        this.developpeur = developpeur;
+    }
+
 
 
     public String getCommentaire() {

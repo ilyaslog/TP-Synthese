@@ -58,4 +58,15 @@ public class ProjetService {
     }
 
 
+    // Save review (ProjDev)
+    public void saveReview(ProjDev projDev) {
+        projDevRepository.save(projDev);
+    }
+
+    // Retrieve a project by its ID
+    public Projet findById(Integer projetId) {
+        return projetRepository.findById(projetId).orElse(null);
+    }
+
+
 }
