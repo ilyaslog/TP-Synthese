@@ -59,6 +59,15 @@ public class ChefProjetServiceImpl implements ChefProjetService {
         return null;
     }
 
-
+    @Override
+    public ChefProjet updateByid(int id, ChefProjet chefProjet) {
+        return chefProjetRepository.findById(id).map(existingDevelopeur -> {
+            existingDevelopeur.setName(chefProjet.getName());
+            existingDevelopeur.setLogin(chefProjet.getLogin());
+            existingDevelopeur.setPassword(chefProjet.getPassword());
+            existingDevelopeur.setBio(chefProjet.getBio());
+            return chefProjetRepository.save(existingDevelopeur);
+        }).orElseThrow(() -> new RuntimeException("Developer with ID " + id + " not found."));
+    }
 
 }

@@ -18,6 +18,6 @@ public interface ChefProjetService  {
 
     ChefProjet findByLogin(String login);  // To find ChefProjet by login
     ChefProjet updatePassword(String login, String newPassword); // Update password
-
+    ChefProjet updateByid(int id, ChefProjet chefProjet);
 
 }

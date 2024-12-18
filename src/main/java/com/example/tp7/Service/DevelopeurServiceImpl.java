@@ -55,6 +55,7 @@ public class DevelopeurServiceImpl implements DevelopeurService {
             existingDevelopeur.setLogin(developeur.getLogin());
             existingDevelopeur.setPassword(developeur.getPassword());
             existingDevelopeur.setCompetences(developeur.getCompetences());
+            existingDevelopeur.setBio(developeur.getBio());
             return developeurRepository.save(existingDevelopeur);
         }).orElseThrow(() -> new RuntimeException("Developer with ID " + id + " not found."));
     }

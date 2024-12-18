@@ -24,6 +24,14 @@ public class Developeur {
     @Column(name = "competences")
     private String competences;
 
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     @Column(name = "Bio")
     private String bio;
 

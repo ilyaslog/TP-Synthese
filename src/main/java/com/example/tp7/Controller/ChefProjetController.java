@@ -204,6 +204,8 @@ public class ChefProjetController {
 
 
 
+
+
         long finishedProjects = projDevService.getFinishedProjectsByChef(idChef);
         long unfinishedProjects = projDevService.getUnfinishedProjectsByChef(idChef);
         Double averageRating = projDevService.getAverageRatingByChef(idChef);
@@ -219,6 +221,23 @@ public class ChefProjetController {
         model.addAttribute("unfinishedProjects", unfinishedProjects);
         model.addAttribute("averageRating", averageRating != null ? averageRating : 0.0);
         return "/Admin/Dashboard";
+     }
+    @PostMapping("/ChefProjet/update/{idChef}")
+    public String updateChefProjet(@PathVariable("idChef") int idChef, ChefProjet chefProjet,
+                                   @SessionAttribute("chefProjet") ChefProjet sessionChefProjet, Model model) {
+        // If sessionChefProjet is null, handle the situation (e.g., redirect to login)
+        if (sessionChefProjet == null) {
+            return "redirect:/login"; // Or another fallback action
+        }
+
+        // Update the ChefProjet by ID using the data from the session
+        chefProjetService.updateByid(idChef, chefProjet);
+
+        // Optional: update the session with the updated ChefProjet if you need to reflect the changes there
+        // session.setAttribute("chefProjet", chefProjet); // Not needed if using @SessionAttribute
+
+        // Redirect or display a confirmation message
+        return "redirect:/ChefProjet/Profile"; // Or return the view to show the updated details
     }
     // Show forgot password form
     @GetMapping("/forgot-password")
