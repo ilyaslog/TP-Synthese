@@ -127,6 +127,13 @@
                 this.chefProjet = chefProjet;
             }
 
+            public List<ProjDev> getProjDevs() {
+                return projDevs;
+            }
+
+            public void setProjDevs(List<ProjDev> projDevs) {
+                this.projDevs = projDevs;
+            }
 
 
         }

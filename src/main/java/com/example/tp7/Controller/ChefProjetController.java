@@ -1,7 +1,10 @@
 package com.example.tp7.Controller;
 
+import com.example.tp7.DAO.ProjDevRepository;
+import com.example.tp7.DAO.ProjetRepository;
 import com.example.tp7.Service.ChefProjetService;
 import com.example.tp7.Service.DevelopeurService;
+import com.example.tp7.Service.ProjDevService;
 import com.example.tp7.Service.ProjetService;
 import com.example.tp7.entity.ChefProjet;
 import com.example.tp7.entity.Developeur;
@@ -20,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,6 +34,13 @@ public class ChefProjetController {
 
     private final ChefProjetService chefProjetService;
 
+    private ProjDevService projDevService;
+
+    @Autowired
+    private ProjetRepository projetRepository;
+
+    @Autowired
+    private ProjDevRepository projDevRepository;
     @Autowired
     private ProjetService projetService;
 
@@ -286,5 +297,108 @@ public class ChefProjetController {
         }
         return "redirect:/ChefProjet/Projet";
     }
+
+
+
+
+    @GetMapping("/review/{idProj}")
+    public String showReviewPage(@PathVariable("idProj") Integer idProj, Model model) {
+        // Retrieve the project by its ID
+        Projet projet = projetService.findById(idProj);
+
+        if (projet != null) {
+            // Fetch all ProjDev instances related to the project ID
+            List<ProjDev> projDevs = projDevRepository.findByProjet_IdProj(idProj);
+
+            // Pass the project and associated ProjDev instances to the view
+            model.addAttribute("projet", projet);
+            model.addAttribute("projDevs", projDevs);
+
+            // Check if there are developers linked to the project
+            if (projDevs.isEmpty()) {
+                model.addAttribute("warning", "No developers assigned to this project.");
+            }
+        } else {
+            // Handle case where the project is not found
+            model.addAttribute("error", "Project not found.");
+        }
+
+        return "/Admin/Project-Review"; // Name of your review page template
+    }
+
+
+
+
+    @PostMapping("/submitReview")
+    public String submitReview(@RequestParam("projectId") Integer projectId,
+                               @RequestParam Map<String, String> allParams,
+                               RedirectAttributes redirectAttributes) {
+
+        // Log received parameters for debugging
+        allParams.forEach((key, value) -> {
+            System.out.println("Received param: " + key + " = " + value);
+        });
+
+        boolean hasErrors = false;
+        for (Map.Entry<String, String> entry : allParams.entrySet()) {
+            if (entry.getKey().startsWith("stars_")) {
+                try {
+                    Integer developerId = Integer.valueOf(entry.getKey().split("_")[1]);
+                    Integer stars = Integer.valueOf(entry.getValue());
+                    String commentaire = allParams.get("commentaire_" + developerId);
+
+                    ProjDev projDev = projDevRepository.findByProjet_IdProjAndDeveloppeur_Id(projectId, developerId).orElse(null);
+
+                    if (projDev != null) {
+                        projDev.setStars(stars);
+                        projDev.setCommentaire(commentaire);
+                        projDevRepository.save(projDev);
+                    } else {
+                        System.out.println("ProjDev not found for projectId: " + projectId + " and developerId: " + developerId);
+                        hasErrors = true;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid data for developer review: " + entry.getKey());
+                    hasErrors = true;
+                }
+            }
+        }
+
+        // Change project status to "Terminé" if no errors
+        if (!hasErrors) {
+            Projet project = projetRepository.findById(projectId).orElse(null);
+            if (project != null) {
+                project.setStatut(1); // 1 = Terminé
+                projetRepository.save(project);
+            }
+            redirectAttributes.addFlashAttribute("success", "Reviews submitted successfully, and project marked as 'Terminé'!");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Some reviews could not be submitted due to invalid data or missing associations.");
+        }
+
+        return "redirect:/ChefProjet/Projet"; // Redirect after submission
+    }
+
+
+
+
+    @GetMapping("/details/{idProj}")
+    public String projectDetails(@PathVariable("idProj") Integer idProj, Model model, RedirectAttributes redirectAttributes) {
+        // Fetch the project
+        Projet project = projetRepository.findById(idProj).orElse(null);
+        if (project == null || project.getStatut() != 1) { // Ensure the project is "Terminé"
+            redirectAttributes.addFlashAttribute("error", "The requested project is not available or not marked as 'Terminé'.");
+            return "redirect:/ChefProjet/Projet";
+        }
+
+        // Fetch associated developers and their reviews
+        List<ProjDev> projectDevelopers = projDevRepository.findByProjet_IdProj(idProj);
+
+        model.addAttribute("project", project);
+        model.addAttribute("developers", projectDevelopers);
+
+        return "/Admin/Project-Details";
+    }
+
 
 }

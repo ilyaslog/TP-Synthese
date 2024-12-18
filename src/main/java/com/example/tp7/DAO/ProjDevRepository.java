@@ -7,15 +7,20 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProjDevRepository extends JpaRepository<ProjDev, Integer> {
 
-    // Find a ProjDev by the project ID
-    ProjDev findByProjet_IdProj(Integer idProj);
+    @Query("SELECT pd FROM ProjDev pd WHERE pd.projet.idProj = :idProj")
+    List<ProjDev> findByProjet_IdProj(@Param("idProj") Integer idProj);
 
-    // Find a ProjDev by both project ID and developer ID
-    ProjDev findByProjet_IdProjAndDeveloppeur_Id(Integer projectId, Integer developerId);
+    @Query("SELECT pd FROM ProjDev pd WHERE pd.projet.idProj = :projectId AND pd.developpeur.id = :developerId")
+    Optional<ProjDev> findByProjet_IdProjAndDeveloppeur_Id(@Param("projectId") Integer projectId, @Param("developerId") Integer developerId);
+
+
+
+
 
 
 }
