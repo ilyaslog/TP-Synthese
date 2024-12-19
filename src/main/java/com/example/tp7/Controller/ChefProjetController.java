@@ -355,30 +355,34 @@ public class ChefProjetController {
 
 
     @GetMapping("/review/{idProj}")
-    public String showReviewPage(@PathVariable("idProj") Integer idProj, Model model) {
-        // Retrieve the project by its ID
-        Projet projet = projetService.findById(idProj);
-
-        if (projet != null) {
-            // Fetch all ProjDev instances related to the project ID
-            List<ProjDev> projDevs = projDevRepository.findByProjet_IdProj(idProj);
-
-            // Pass the project and associated ProjDev instances to the view
-            model.addAttribute("projet", projet);
-            model.addAttribute("projDevs", projDevs);
-
-            // Check if there are developers linked to the project
-            if (projDevs.isEmpty()) {
-                model.addAttribute("warning", "No developers assigned to this project.");
-            }
-        } else {
-            // Handle case where the project is not found
-            model.addAttribute("error", "Project not found.");
-        }
-
-        return "/Admin/Project-Review"; // Name of your review page template
+public String showReviewPage(@PathVariable("idProj") Integer idProj, Model model, HttpSession session) {
+    ChefProjet chefProjet = (ChefProjet) session.getAttribute("chefprojet");
+    if (chefProjet == null) {
+        return "redirect:/ChefProjet/login"; // Redirect to login if session is missing
     }
 
+    // Retrieve the project by its ID
+    Projet projet = projetService.findById(idProj);
+
+    if (projet != null) {
+        // Fetch all ProjDev instances related to the project ID
+        List<ProjDev> projDevs = projDevRepository.findByProjet_IdProj(idProj);
+
+        // Pass the project and associated ProjDev instances to the view
+        model.addAttribute("projet", projet);
+        model.addAttribute("projDevs", projDevs);
+
+        // Check if there are developers linked to the project
+        if (projDevs.isEmpty()) {
+            model.addAttribute("warning", "No developers assigned to this project.");
+        }
+    } else {
+        // Handle case where the project is not found
+        model.addAttribute("error", "Project not found.");
+    }
+
+    return "/Admin/Project-Review"; // Name of your review page template
+}
 
 
 

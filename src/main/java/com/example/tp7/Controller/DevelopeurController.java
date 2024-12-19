@@ -166,21 +166,26 @@ public class DevelopeurController {
         return "redirect:/developer/login"; // Redirect to the login page after logout
     }
 
-    @GetMapping("/details/{idProj}")
-    public String projectDetails(@PathVariable("idProj") Integer idProj, Model model, RedirectAttributes redirectAttributes) {
-        // Fetch the project
-        Projet project = projetRepository.findById(idProj).orElse(null);
-        if (project == null || project.getStatut() != 1) { // Ensure the project is "Terminé"
-            redirectAttributes.addFlashAttribute("error", "The requested project is not available or not marked as 'Terminé'.");
-            return "redirect:/ChefProjet/Projet";
-        }
-
-        // Fetch associated developers and their reviews
-        List<ProjDev> projectDevelopers = projDevRepository.findByProjet_IdProj(idProj);
-
-        model.addAttribute("project", project);
-        model.addAttribute("developers", projectDevelopers);
-
-        return "Project-details-dev";
+  @GetMapping("/details/{idProj}")
+public String projectDetails(@PathVariable("idProj") Integer idProj, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+    Developeur developeur = (Developeur) session.getAttribute("developer");
+    if (developeur == null) {
+        return "redirect:/developer/login"; // Redirect to login if not logged in
     }
+
+    // Fetch the project
+    Projet project = projetRepository.findById(idProj).orElse(null);
+    if (project == null || project.getStatut() != 1) { // Ensure the project is "Terminé"
+        redirectAttributes.addFlashAttribute("error", "The requested project is not available or not marked as 'Terminé'.");
+        return "redirect:/ChefProjet/Projet";
+    }
+
+    // Fetch associated developers and their reviews
+    List<ProjDev> projectDevelopers = projDevRepository.findByProjet_IdProj(idProj);
+
+    model.addAttribute("project", project);
+    model.addAttribute("developers", projectDevelopers);
+
+    return "Project-details-dev";
+}
 }
