@@ -33,7 +33,6 @@
       </a>
     </li>
     <hr class="sidebar-divider" />
-
     <div class="sidebar-heading">Interface</div>
     <hr class="sidebar-divider d-none d-md-block" />
     <div class="text-center d-none d-md-inline">
@@ -82,7 +81,7 @@
 
       <div class="container-fluid">
         <div class="row justify-content-center">
-          <!-- Finished Projects -->
+          <!-- Finished Projects Card -->
           <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
               <div class="card-body">
@@ -146,70 +145,79 @@
           </div>
         </div>
 
-        <!-- Tables for Projects -->
-        <div class="row mt-4">
-          <!-- Ongoing Projects -->
-          <div class="col-xl-6 col-md-12 mb-4">
-            <div class="card shadow">
+        <div class="card border-left-primary shadow h-100 py-2">
               <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Ongoing Projects</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Finished Projects</h6>
               </div>
-              <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>
-                  <tr>
-                    <th>Project Name</th>
-                    <th>Deadline</th>
-                    <th>Status</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <!-- Iterate over ongoing projects -->
-                  <tr th:each="project : ${ongoingProjects}">
-                    <td th:text="${project.titre}">Project Name</td>
-                    <td th:text="${#dates.format(project.finProj, 'yyyy-MM-dd')}">2024-12-31</td>
-                    <td th:text="${project.statut == 0 ? 'In Progress' : 'Completed'}">In Progress</td>
-                  </tr>
-                  </tbody>
-                </table>
+              <div class="card-body p-0">
+                <div class="container d-flex justify-content-center">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <thead class="thead-dark">
+                      <tr>
+                        <th>Name</th>
+                        <th>Deadline</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="project : ${finishedProjectsList}">
+                        <td th:text="${project.titre}">Project Title</td>
+                        <td th:text="${#dates.format(project.finProj, 'yyyy-MM-dd')}">2024-12-20</td>
+                        <td th:text="${project.description}">Develop a new feature</td>
+                        <td th:text="${project.statut != null ? (project.statut == 0 ? 'En cours' : 'Terminé') : 'Status Unknown'}">Status</td>
+                        <td>
+                       <a th:href="@{/developer/details/{idProj}(idProj=${project.idProj})}" class="btn btn-primary btn-sm">View</a>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Completed Projects -->
+          <!-- Unfinished Projects Card -->
           <div class="col-xl-6 col-md-12 mb-4">
-            <div class="card shadow">
+            <div class="card border-left-success shadow h-100 py-2">
               <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Last Projects</h6>
+                <h6 class="m-0 font-weight-bold text-success">Unfinished Projects</h6>
               </div>
-              <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>
-                  <tr>
-                    <th>Project Name</th>
-                    <th>Completion Date</th>
-                    <th>Status</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <!-- Iterate over completed projects -->
-                  <tr th:each="project : ${completedProjects}">
-                    <td th:text="${project.titre}">Project Name</td>
-                    <td th:text="${#dates.format(project.finProj, 'yyyy-MM-dd')}">2024-11-30</td>
-                    <td th:text="${project.statut == 1 ? 'Completed' : 'In Progress'}">Completed</td>
-                  </tr>
-                  </tbody>
-                </table>
+              <div class="card-body p-0">
+                <div class="container d-flex justify-content-center">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                      <thead class="thead-dark">
+                      <tr>
+                        <th>Name</th>
+                        <th>Deadline</th>
+                        <th>Description</th>
+                        <th>Status</th>
+
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="project : ${unfinishedProjectsList}">
+                        <td th:text="${project.titre}">Project Title</td>
+                        <td th:text="${#dates.format(project.finProj, 'yyyy-MM-dd')}">2024-12-20</td>
+                        <td th:text="${project.description}">Develop a new feature</td>
+                        <td th:text="${project.statut != null ? (project.statut == 0 ? 'En cours' : 'Terminé') : 'Status Unknown'}">Status</td>
+
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
-</div>
-</div>
 </div>
 
 <!-- Footer -->

@@ -75,4 +75,8 @@ public class ProjetService {
     public List<Projet> getCompletedProjects() {
         return projetRepository.findBystatut(1); // Status 1 means completed projects
     }
+
+
+
+
 }

@@ -110,7 +110,7 @@ public class ChefProjetController {
         projetService.saveProjetWithDevelopers(projet, projDevs);
 
         return "redirect:/ChefProjet/Projet"; // Redirect to project listing page
-}
+    }
 
     // Display the list of projects and developers
     @GetMapping("/Projet")
@@ -200,7 +200,7 @@ public class ChefProjetController {
         }
     }
 
-   @GetMapping({"/dashboard", "/Dashboard"})
+    @GetMapping({"/dashboard", "/Dashboard"})
     public String showDashboard(Model model, HttpSession session) {
         ChefProjet chefProjet = (ChefProjet) session.getAttribute("chefprojet");
         if (chefProjet == null) {
@@ -213,34 +213,45 @@ public class ChefProjetController {
         Double averageRating = projDevService.getAverageRatingByChef(idChef);
 
         // Add the fetched data to the model
-       List<Projet> ongoingProjects = projetService.getOngoingProjects(); // Fetch ongoing projects
-       List<Projet> completedProjects = projetService.getCompletedProjects(); // Fetch completed projects\
+        List<Projet> ongoingProjects = projetService.getOngoingProjects(); // Fetch ongoing projects
+        List<Projet> completedProjects = projetService.getCompletedProjects(); // Fetch completed projects\
 
-       model.addAttribute("ongoingProjects", ongoingProjects); // Add ongoing projects to model
-       model.addAttribute("completedProjects", completedProjects); // Add completed projects to model
+        model.addAttribute("ongoingProjects", ongoingProjects); // Add ongoing projects to model
+        model.addAttribute("completedProjects", completedProjects); // Add completed projects to model
 
         model.addAttribute("finishedProjects", finishedProjects);
         model.addAttribute("unfinishedProjects", unfinishedProjects);
         model.addAttribute("averageRating", averageRating != null ? averageRating : 0.0);
         return "/Admin/Dashboard";
-     }
-    @PostMapping("/ChefProjet/update/{idChef}")
-    public String updateChefProjet(@PathVariable("idChef") int idChef, ChefProjet chefProjet,
-                                   @SessionAttribute("chefProjet") ChefProjet sessionChefProjet, Model model) {
-        // If sessionChefProjet is null, handle the situation (e.g., redirect to login)
-        if (sessionChefProjet == null) {
-            return "redirect:/login"; // Or another fallback action
+    }
+
+
+    @PostMapping("/update/{idChef}")
+    public String updateChefProjet(@PathVariable("idChef") Integer idChef,
+                                   @RequestParam("name") String name,
+                                   @RequestParam("login") String login,
+                                   @RequestParam("bio") String bio) {
+        // Find the ChefProjet by ID
+        ChefProjet chefProjet = chefProjetService.findById(idChef);
+
+        if (chefProjet == null) {
+            // Handle error: ChefProjet not found
+            return "redirect:/ChefProjet/error";
         }
 
-        // Update the ChefProjet by ID using the data from the session
-        chefProjetService.updateByid(idChef, chefProjet);
+        // Update the chefProjet fields with new values
+        chefProjet.setName(name);
+        chefProjet.setLogin(login);
+        chefProjet.setBio(bio);
 
-        // Optional: update the session with the updated ChefProjet if you need to reflect the changes there
-        // session.setAttribute("chefProjet", chefProjet); // Not needed if using @SessionAttribute
+        // Save the updated chefProjet
+        chefProjetService.save(chefProjet);
 
-        // Redirect or display a confirmation message
-        return "redirect:/ChefProjet/Profile"; // Or return the view to show the updated details
+        // Redirect to profile page or another appropriate page
+        return "redirect:/ChefProjet/Profile";// Or redirect to any other page you want
     }
+
+
     // Show forgot password form
     @GetMapping("/forgot-password")
     public String showForgotPasswordForm() {
@@ -261,15 +272,15 @@ public class ChefProjetController {
         }
     }
 
-@GetMapping("/Profile")
-public String showProfile(HttpSession session, Model model) {
-    ChefProjet chefProjet = (ChefProjet) session.getAttribute("chefprojet");
-    if (chefProjet == null) {
-        return "redirect:/ChefProjet/login"; // Redirect to login if session is missing
+    @GetMapping("/Profile")
+    public String showProfile(HttpSession session, Model model) {
+        ChefProjet chefProjet = (ChefProjet) session.getAttribute("chefprojet");
+        if (chefProjet == null) {
+            return "redirect:/ChefProjet/login"; // Redirect to login if session is missing
+        }
+        model.addAttribute("chefProjet", chefProjet);
+        return "/Admin/Profile"; // Path to your profile page
     }
-    model.addAttribute("chefProjet", chefProjet);
-    return "/Admin/Profile"; // Path to your profile page
-}
 
     // Display edit form for a specific project
     @GetMapping("/edit/{id}")
@@ -445,6 +456,6 @@ public String showProfile(HttpSession session, Model model) {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/ChefProjet/login";
-    }
+}
 
 }

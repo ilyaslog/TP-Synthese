@@ -2,7 +2,10 @@ package com.example.tp7.Service;
 
 import com.example.tp7.DAO.ProjDevRepository;
 import com.example.tp7.entity.ProjDev;
+import com.example.tp7.entity.Projet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,4 +51,22 @@ public class ProjDevService {
         return projDevRepository.findAverageRatingByChef(idChef);
     }
 
+    public Double findAverageRatingByChef( Integer idChef){
+        return projDevRepository.findAverageRatingByChef(idChef);
+    }
+
+  public long countFinishedProjectsByDeveloper(Integer idDev) {
+    return projDevRepository.countFinishedProjectsByDeveloper(idDev);
+}
+
+public long countUnfinishedProjectsByDeveloper(Integer idDev) {
+    return projDevRepository.countUnfinishedProjectsByDeveloper(idDev);
+}
+
+public Double findAverageRatingByDeveloper(Integer idDev) {
+    return projDevRepository.findAverageRatingByDeveloper(idDev);
+}
+public List<Projet> findBystatusAndDeveloppeur_Id(int statut, Integer idDev) {
+    return projDevRepository.findByStatutAndDeveloppeur_Id(statut, idDev);
+}
 }

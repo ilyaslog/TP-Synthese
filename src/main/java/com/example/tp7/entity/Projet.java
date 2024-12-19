@@ -87,6 +87,22 @@
                 this.description = description;
             }
 
+            @Override
+            public String toString() {
+                return "Projet{" +
+                        "idProj=" + idProj +
+                        ", titre='" + titre + '\'' +
+                        ", description='" + description + '\'' +
+                        ", debutProj=" + debutProj +
+                        ", finProj=" + finProj +
+                        ", duree=" + duree +
+                        ", statut=" + statut +
+                        ", competencesRequise='" + competencesRequise + '\'' +
+                        ", chefProjet=" + chefProjet +
+                        ", projDevs=" + projDevs +
+                        '}';
+            }
+
             public Date getDebutProj() {
                 return debutProj;
             }
